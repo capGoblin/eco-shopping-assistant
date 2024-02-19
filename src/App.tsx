@@ -10,7 +10,7 @@ function App() {
     chrome.storage.local.get(["onPage"], function (result) {
       setOnPage(result.onPage || "");
     });
-  }, []);
+  }, [data]);
   const handleScraping = async () => {
     if (onPage) {
       const productUrl = `${onPage}`;
@@ -21,6 +21,7 @@ function App() {
         .then((jsonData) => setData(jsonData))
         .catch((error) => console.error("Error fetching data:", error));
     }
+    console.log(data);
   };
   return (
     <>

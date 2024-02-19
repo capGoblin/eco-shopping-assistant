@@ -2,7 +2,7 @@
 import openai from "openai";
 
 // Initialize the OpenAI API with your API key
-const openaiApiKey = "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";
+const openaiApiKey = process.env.OPENAI_API_KEY;
 const openaiClient = new openai.OpenAI({ apiKey: openaiApiKey });
 
 // Function to extract relevant information from the JSON data

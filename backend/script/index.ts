@@ -1,20 +1,14 @@
 import puppeteer from "puppeteer";
 interface Product {
-  title: string;
-  imgSrc: string;
-  price: string;
-}
-
-interface Site {
   id: number;
-  name: string;
-  products: Product[];
+  title: string;
+  product_overview: Record<string, any>; // JSONB type can contain any JSON structure
+  about_this_item: string;
+  product_info: Record<string, any>; // JSONB type can contain any JSON structure
+  product_info_2: Record<string, any>; // JSONB type can contain any JSON structure
+  product_description: string;
 }
 
-interface MyComponentProps {
-  sites: Site[];
-}
-const productName = process.argv[2]; // Get productName from command-line arguments
 (async () => {
   // console.log("Launching browser...");
   const browser = await puppeteer.launch({
@@ -74,7 +68,7 @@ const productName = process.argv[2]; // Get productName from command-line argume
   }
 
   // Scrape the content of the section
-  const productOverview = await overviewSection?.evaluate(() => {
+  const product_overview = await overviewSection?.evaluate(() => {
     const attributes: { [key: string]: string } = {}; // Add type annotation for attributes object
     const rows = document.querySelectorAll("table.a-normal tr");
     rows.forEach((row) => {
@@ -88,23 +82,23 @@ const productName = process.argv[2]; // Get productName from command-line argume
   });
 
   // Scrape "About this item" section
-  const aboutThisItem = await page.$eval(
+  const about_this_item = await page.$eval(
     "#feature-bullets ul",
     (el) => el?.textContent?.trim() || ""
   );
 
   // Scrape product information
-  const productInfo = await page.$eval(
+  const product_info = await page.$eval(
     "#productDetails_techSpec_section_1",
     (el) => el?.textContent?.trim() || ""
   );
-  let productInfo2 = null;
+  let product_info_2 = null;
   try {
     await page.waitForSelector("#productDetails_techSpec_section_2", {
       timeout: 1000,
     });
     // Scrape product information
-    productInfo2 = await page.evaluate(() => {
+    product_info_2 = await page.evaluate(() => {
       const infoTableRows = Array.from(
         document.querySelectorAll("#productDetails_techSpec_section_2 tr")
       );
@@ -120,20 +114,20 @@ const productName = process.argv[2]; // Get productName from command-line argume
       return productInformation;
     });
   } catch (error) {
-    console.log(
-      "The selector was not found within the timeout period, but we are proceeding anyway."
-    );
+    // console.log(
+    //   "The selector was not found within the timeout period, but we are proceeding anyway."
+    // );
   }
 
   // Scrape product description
-  let productDescription = "";
+  let product_description = "";
   try {
     // Try to scrape product description from the A+ content section
     const descriptionSection = await page.waitForSelector(
       "#aplus_feature_div",
       { timeout: 5000 }
     );
-    productDescription = (await descriptionSection?.evaluate(() => {
+    product_description = (await descriptionSection?.evaluate(() => {
       const descriptionElement = document.querySelector("#aplus h2");
       if (
         descriptionElement &&
@@ -148,45 +142,54 @@ const productName = process.argv[2]; // Get productName from command-line argume
     //   return productDescription;
     // }
   } catch (error) {
-    console.log(
-      "A+ content description not found, falling back to regular product description."
-    );
+    // console.log(
+    //   "A+ content description not found, falling back to regular product description."
+    // );
   }
 
   // let productDescription = "";
 
   try {
     await page.waitForSelector("#productDescription p", { timeout: 1000 });
-    productDescription = await page.$eval(
+    product_description = await page.$eval(
       "#productDescription p",
       (el) => el?.textContent?.trim() || ""
     );
   } catch (error) {
-    console.log(
-      "The selector was not found within the timeout period, but we are proceeding anyway."
-    );
+    // console.log(
+    //   "The selector was not found within the timeout period, but we are proceeding anyway."
+    // );
   }
   const witbSection = await page.waitForSelector("#whatsInTheBoxDeck");
 
   // Scrape the content of the section
+  let witb_section: string[] = [];
   if (witbSection) {
-    const whatsInTheBoxContent = await witbSection.evaluate(() => {
+    witb_section = (await witbSection.evaluate(() => {
       const contentList = document.querySelectorAll("#witb-content-list li");
       const items = Array.from(contentList).map(
         (item) => item.textContent?.trim() || ""
       );
       return items;
-    });
+    })) as string[]; // Update the type to string[]
   }
 
-  console.log({
-    title,
-    productOverview,
-    aboutThisItem,
-    productInfo,
-    productInfo2,
-    productDescription,
-  });
+  console.log(
+    JSON.stringify(
+      {
+        title,
+        product_overview,
+        about_this_item,
+        product_info,
+        product_info_2,
+        product_description,
+        witb_section,
+      },
+      null,
+      2
+    )
+  );
+
   // Close the browser
   await browser.close();
 

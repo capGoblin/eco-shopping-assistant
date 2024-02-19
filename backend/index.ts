@@ -6,41 +6,46 @@ import generateEcoRating from "./script/openai-api";
 const app = express();
 const port = 3000;
 
-app.get("/run-script", (req, res) => {
-  exec("ts-node ./script/index.ts", async (execError, stdout, stderr) => {
-    if (execError) {
-      console.log(`error executing script: ${execError.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
+app.get("/run-script/:productUrl", (req, res) => {
+  const productUrl = decodeURIComponent(req.params.productUrl);
 
-    // Parse the script output
-    const productDetails = JSON.parse(stdout);
-    console.log(productDetails);
+  exec(
+    `ts-node ./script/index.ts "${productUrl}"`,
+    async (execError, stdout, stderr) => {
+      if (execError) {
+        console.log(`error executing script: ${execError.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
 
-    // Update the productDetails table in Supabase
-    const { data, error } = await supabase
-      .from("productDetails")
-      .insert(productDetails);
+      // Parse the script output
+      const productDetails = JSON.parse(stdout);
+      console.log(productDetails);
 
-    if (error) {
-      console.error("Error updating Supabase:", error);
-      res.status(500).send("Error updating Supabase");
-    } else {
-      generateEcoRating(productDetails)
-        .then((ecoRating) => {
-          console.log("Eco-friendliness rating:", ecoRating);
-          return ecoRating;
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-      res.send(data);
+      // Update the productDetails table in Supabase
+      const { data, error } = await supabase
+        .from("productDetails")
+        .insert(productDetails);
+
+      if (error) {
+        console.error("Error updating Supabase:", error);
+        res.status(500).send("Error updating Supabase");
+      } else {
+        generateEcoRating(productDetails)
+          .then((ecoRating) => {
+            console.log("Eco-friendliness rating:", ecoRating);
+            return ecoRating;
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+        res.send(data);
+      }
     }
-  });
+  );
 });
 
 app.listen(port, () => {

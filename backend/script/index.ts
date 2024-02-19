@@ -8,7 +8,7 @@ interface Product {
   product_info_2: Record<string, any>; // JSONB type can contain any JSON structure
   product_description: string;
 }
-
+const productUrl = process.argv[2];
 (async () => {
   // console.log("Launching browser...");
   const browser = await puppeteer.launch({
@@ -42,9 +42,7 @@ interface Product {
   // });
 
   const page = await browser.newPage();
-  await page.goto(
-    "https://www.amazon.in/Cello-Sportigo-Plastic-Bottle-Assorted/dp/B077Z99BP2/ref=sr_1_4?keywords=Plastic+Items&qid=1708280641&sr=8-4-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1"
-  );
+  await page.goto(`${productUrl}`);
 
   // Scrape product title
   const title = await page.$eval("#productTitle", (el) =>

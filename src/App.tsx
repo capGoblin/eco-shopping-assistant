@@ -54,11 +54,13 @@ function App() {
       <div>{onPage}</div>
       <button onClick={handleScraping}>SCRAPE</button>
       {/* ProductData Component to display the image and title like this */}
+      {/* img on left side and title on right side*/}
       <div>
         <img src={data?.img_src} alt={data?.title} />
         <p>{data?.title}</p>
       </div>
       {/* EcoRating component to display the ratings like this */}
+      {/* display these horizontally one by one just like this*/}
       <div>Material: {ecoRating?.Material}</div>
       <div>Energy Efficiency: {ecoRating?.["Energy Efficiency"]}</div>
       <div>Transportation: {ecoRating?.Transportation}</div>

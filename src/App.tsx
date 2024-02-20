@@ -54,7 +54,7 @@ function App() {
       <div>{onPage}</div>
       <button onClick={handleScraping}>SCRAPE</button>
       {/* ProductData Component to display the image and title like this */}
-      {/* img on left side and title on right side*/}
+      {/* img on left side and title on right side by flex row*/}
       <div>
         <img src={data?.img_src} alt={data?.title} />
         <p>{data?.title}</p>

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
+import EcoRating from "./component/EcoRating";
 interface ProductData {
   title: string;
   product_overview: {
@@ -50,7 +51,7 @@ function App() {
   };
   return (
     <>
-      Hiiiii
+      SCRAPE
       <div>{onPage}</div>
       <button onClick={handleScraping}>SCRAPE</button>
       {/* ProductData Component to display the image and title like this */}
@@ -60,6 +61,7 @@ function App() {
         <p>{data?.title}</p>
       </div>
       {/* EcoRating component to display the ratings like this */}
+      <EcoRating totalStars={5} />
       {/* display these horizontally one by one just like this*/}
       <div className="text-blue-500 text-lg">
         Material: {ecoRating?.Material}

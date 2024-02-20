@@ -27,11 +27,11 @@ function App() {
   const [data, setData] = useState<ProductData | null>(null);
   const [ecoRating, setEcoRating] = useState<EcoRating | null>(null);
 
-  useEffect(() => {
-    chrome.storage.local.get(["onPage"], function (result) {
-      setOnPage(result.onPage || "");
-    });
-  }, [data]);
+  // useEffect(() => {
+  //   chrome.storage.local.get(["onPage"], function (result) {
+  //     setOnPage(result.onPage || "");
+  //   });
+  // }, [data]);
   // display data
   const handleScraping = async () => {
     if (onPage) {
@@ -61,7 +61,9 @@ function App() {
       </div>
       {/* EcoRating component to display the ratings like this */}
       {/* display these horizontally one by one just like this*/}
-      <div>Material: {ecoRating?.Material}</div>
+      <div className="text-blue-500 text-lg">
+        Material: {ecoRating?.Material}
+      </div>
       <div>Energy Efficiency: {ecoRating?.["Energy Efficiency"]}</div>
       <div>Transportation: {ecoRating?.Transportation}</div>
       <div>End-of-Life Management: {ecoRating?.["End-of-Life Management"]}</div>

@@ -48,6 +48,7 @@ function App() {
           setEcoRating(formattedEcoRating);
         })
         .catch((error) => console.error("Error fetching data:", error));
+      await handleRecommPicks();
     }
     console.log(data);
   };

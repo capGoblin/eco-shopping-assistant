@@ -65,6 +65,16 @@ const productUrl = process.argv[2];
     }
   }
 
+  await page.waitForSelector("#imgTagWrapperId img");
+
+  // Extract the image source
+  const img_src = await page.evaluate(() => {
+    const img = document.querySelector(
+      "#imgTagWrapperId img"
+    ) as HTMLImageElement;
+    return img ? img.src : null;
+  });
+
   // Scrape the content of the section
   const product_overview = await overviewSection?.evaluate(() => {
     const attributes: { [key: string]: string } = {}; // Add type annotation for attributes object
@@ -182,6 +192,7 @@ const productUrl = process.argv[2];
         product_info_2,
         product_description,
         witb_section,
+        img_src,
       },
       null,
       2

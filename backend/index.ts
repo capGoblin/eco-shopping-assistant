@@ -26,7 +26,7 @@ app.get("/run-script/:productUrl", (req, res) => {
       console.log(productDetails);
 
       // Update the productDetails table in Supabase
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("productDetails")
         .insert(productDetails);
 
@@ -34,7 +34,9 @@ app.get("/run-script/:productUrl", (req, res) => {
         console.error("Error updating Supabase:", error);
         res.status(500).send("Error updating Supabase");
       } else {
-        generateEcoRating(productDetails)
+        const { img_src, ...rest } = productDetails;
+        const productDetailsWithoutImage = rest;
+        generateEcoRating(productDetailsWithoutImage)
           .then((ecoRating) => {
             console.log("Eco-friendliness rating:", ecoRating);
             return ecoRating;
@@ -42,7 +44,8 @@ app.get("/run-script/:productUrl", (req, res) => {
           .catch((error) => {
             console.error("Error:", error);
           });
-        res.send(data);
+        console.log(productDetails);
+        res.send(productDetails);
       }
     }
   );

@@ -1,16 +1,31 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
+interface ProductData {
+  title: string;
+  product_overview: {
+    [key: string]: string;
+  };
+  about_this_item: string;
+  product_info: string;
+  product_info_2: {
+    [key: string]: string;
+  };
+  product_description: string;
+  witb_section: string[];
+  img_src: string;
+}
 
 function App() {
   const [onPage, setOnPage] = useState<string>("");
-  const [data, setData] = useState();
+  const [data, setData] = useState<ProductData | null>(null);
 
   useEffect(() => {
     chrome.storage.local.get(["onPage"], function (result) {
       setOnPage(result.onPage || "");
     });
   }, [data]);
+  // display data
   const handleScraping = async () => {
     if (onPage) {
       const productUrl = `${onPage}`;
@@ -23,14 +38,25 @@ function App() {
     }
     console.log(data);
   };
+  const handleDisplayData = () => {
+    console.log(data);
+  };
   return (
     <>
       Hiiiii
       <div>{onPage}</div>
       <button onClick={handleScraping}>SCRAPE</button>
+      <button onClick={handleDisplayData}>DISPLAY</button>
       <div>HIIIII</div>
-      <div>{data}</div>
-      {/* <h1>{onPage}</h1> */}
+      <div>
+        {/* Display fetched data */}
+        {data && (
+          <div>
+            <h3>Fetched Data</h3>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
+          </div>
+        )}
+      </div>
     </>
   );
 }

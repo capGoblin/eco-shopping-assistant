@@ -48,9 +48,6 @@ function App() {
     }
     console.log(data);
   };
-  const handleDisplayData = () => {
-    console.log(data);
-  };
   return (
     <>
       Hiiiii

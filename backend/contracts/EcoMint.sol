@@ -5,7 +5,16 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 contract EcoMint is ERC20, ERC20Burnable {
+    address public owner;
+
     constructor() ERC20("EcoMint", "ECO") {
+        owner = msg.sender;
         _mint(msg.sender, 1000 * 10 ** decimals());
+    }
+
+    // Function to transfer tokens to another address
+    function transferTokens(address recipient, uint256 amount) external {
+        require(msg.sender == owner, "Only the contract owner can transfer tokens");
+        _transfer(owner, recipient, amount);
     }
 }

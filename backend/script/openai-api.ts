@@ -33,7 +33,7 @@ function extractInfo(jsonData: any) {
 // Function to generate eco-friendliness rating using OpenAI API
 export default async function generateEcoRating(jsonData: any) {
   // Extract relevant information from the JSON
-  const productDetails = extractInfo(jsonData);
+  // const productDetails = extractInfo(jsonData);
 
   // Compose a prompt using the extracted information
   //   const prompt = `Eco-friendliness rating for product:
@@ -44,7 +44,7 @@ export default async function generateEcoRating(jsonData: any) {
   //   Product Info 2: ${productDetails.product_info_2}
   //   Product Description: ${productDetails.product_description}
   //   WITB Section: ${productDetails.witb_section}`;
-  const prompt = `${jsonData} give eco-friendliness score based on above information, rating from 1(less eco-friendly to environment) to 5(more exo-friendly to environment) each categories such as Material, Energy Efficiency, Transportation (assuming delivery to South India), End-of-Life Management, and Overall Eco-Friendliness Rating(overall score more weight on Material, give a poor score for worse materials). If couldn't find any info on a category give neutral score, Provide only scores for all categories.
+  const prompt = `${jsonData} give eco-friendliness score based on above information, rating from 1(less eco-friendly to environment) to 5(more exo-friendly to environment) each categories such as Material, Energy Efficiency, Transportation (assuming delivery to South India), End-of-Life Management (give score depending on disposability of this material), and Overall Eco-Friendliness Rating(overall score more weight on Material). If couldn't find any info on a category give neutral score, Provide only scores for all categories.
   `;
   console.log(prompt);
 
@@ -59,8 +59,8 @@ export default async function generateEcoRating(jsonData: any) {
     });
 
     // Extract the generated rating from the API response
-    console.log(response);
-    console.log(response.choices[0].message);
+    // console.log(response);
+    // console.log(response.choices[0].message);
 
     const ecoRating = response.choices[0].message.content?.trim();
     // const ecoMessage = choices[1].text.trim();

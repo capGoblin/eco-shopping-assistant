@@ -3,8 +3,16 @@ import { createClient } from "@supabase/supabase-js";
 import { exec } from "child_process";
 import { supabase } from "./supabaseClient";
 import generateEcoRating from "./script/openai-api";
+import stringToJSON from "./lib/stringToJSON";
 const app = express();
 const port = 3000;
+interface EcoRating {
+  Material: number;
+  "Energy Efficiency": number;
+  Transportation: number;
+  "End-of-Life Management": number;
+  "Overall Eco-Friendliness Rating": number;
+}
 
 app.get("/run-script/:productUrl", (req, res) => {
   const productUrl = decodeURIComponent(req.params.productUrl);
@@ -36,16 +44,18 @@ app.get("/run-script/:productUrl", (req, res) => {
       } else {
         const { img_src, ...rest } = productDetails;
         const productDetailsWithoutImage = rest;
-        generateEcoRating(productDetailsWithoutImage)
+        const ecoRating = await generateEcoRating(productDetailsWithoutImage)
           .then((ecoRating) => {
-            console.log("Eco-friendliness rating:", ecoRating);
+            // console.log("Eco-friendliness rating:", ecoRating);
             return ecoRating;
           })
           .catch((error) => {
             console.error("Error:", error);
           });
         console.log(productDetails);
-        res.send(productDetails);
+        const formattedEcoRating: EcoRating = stringToJSON(ecoRating!);
+        console.log(formattedEcoRating);
+        res.send([productDetails, formattedEcoRating]);
       }
     }
   );

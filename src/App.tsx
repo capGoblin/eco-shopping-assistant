@@ -15,10 +15,17 @@ interface ProductData {
   witb_section: string[];
   img_src: string;
 }
-
+interface EcoRating {
+  Material: number;
+  "Energy Efficiency": number;
+  Transportation: number;
+  "End-of-Life Management": number;
+  "Overall Eco-Friendliness Rating": number;
+}
 function App() {
   const [onPage, setOnPage] = useState<string>("");
   const [data, setData] = useState<ProductData | null>(null);
+  const [ecoRating, setEcoRating] = useState<EcoRating | null>(null);
 
   useEffect(() => {
     chrome.storage.local.get(["onPage"], function (result) {
@@ -33,7 +40,10 @@ function App() {
       const endpointUrl = `http://localhost:3000/run-script/${encodedProductUrl}`;
       await fetch(endpointUrl)
         .then((response) => response.json())
-        .then((jsonData) => setData(jsonData))
+        .then(([productDetails, formattedEcoRating]) => {
+          setData(productDetails);
+          setEcoRating(formattedEcoRating);
+        })
         .catch((error) => console.error("Error fetching data:", error));
     }
     console.log(data);
@@ -46,16 +56,19 @@ function App() {
       Hiiiii
       <div>{onPage}</div>
       <button onClick={handleScraping}>SCRAPE</button>
-      <button onClick={handleDisplayData}>DISPLAY</button>
-      <div>HIIIII</div>
+      {/* ProductData Component to display the image and title like this */}
       <div>
-        {/* Display fetched data */}
-        {data && (
-          <div>
-            <h3>Fetched Data</h3>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
-          </div>
-        )}
+        <img src={data?.img_src} alt={data?.title} />
+        <p>{data?.title}</p>
+      </div>
+      {/* EcoRating component to display the ratings like this */}
+      <div>Material: {ecoRating?.Material}</div>
+      <div>Energy Efficiency: {ecoRating?.["Energy Efficiency"]}</div>
+      <div>Transportation: {ecoRating?.Transportation}</div>
+      <div>End-of-Life Management: {ecoRating?.["End-of-Life Management"]}</div>
+      <div>
+        Overall Eco-Friendliness Rating:{" "}
+        {ecoRating?.["Overall Eco-Friendliness Rating"]}
       </div>
     </>
   );

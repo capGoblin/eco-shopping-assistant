@@ -27,7 +27,7 @@ function EcoRating  ({totalStars}:StarRatingProps) {
           &#9733;
         </span>
       ))}
-      <p>Current Rating: {rating}</p>
+      <p>Product Rating: {rating}</p>
       
     </div>
   );

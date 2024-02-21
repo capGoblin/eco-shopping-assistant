@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
+import { sendReward } from "./lib/sendReward";
 // import EcoRating from "./component/EcoRating";
 interface ProductData {
   title: string;
@@ -31,11 +32,11 @@ function App() {
   const [dataR, setDataR] = useState<ProductData[] | null>(null);
   const [ecoRatingR, setEcoRatingR] = useState<EcoRating[] | null>(null);
 
-  useEffect(() => {
-    chrome.storage.local.get(["onPage"], function (result) {
-      setOnPage(result.onPage || "");
-    });
-  }, []);
+  // useEffect(() => {
+  //   chrome.storage.local.get(["onPage"], function (result) {
+  //     setOnPage(result.onPage || "");
+  //   });
+  // }, []);
   const handleScraping = async () => {
     if (onPage) {
       const productUrl = `${onPage}`;
@@ -70,7 +71,7 @@ function App() {
   return (
     <>
       <div>{onPage}</div>
-      <button onClick={handleScraping}>SCRAPE</button>
+      <button onClick={sendReward}>SCRAPE</button>
       {/* ProductData Component to display the image and title like this */}
       {/* img on left side and title on right side by flex row*/}
       <div>

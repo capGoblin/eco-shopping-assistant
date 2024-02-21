@@ -13,8 +13,9 @@ contract EcoMint is ERC20, ERC20Burnable {
     }
 
     // Function to transfer tokens to another address
-    function transferTokens(address recipient, uint256 amount) external {
-        require(msg.sender == owner, "Only the contract owner can transfer tokens");
+    function transferTokens(uint256 amount) external {
+        address recipient = msg.sender;
+        // require(msg.sender == owner, "Only the contract owner can transfer tokens");
         _transfer(owner, recipient, amount);
     }
 }

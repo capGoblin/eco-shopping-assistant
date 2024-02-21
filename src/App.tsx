@@ -35,6 +35,12 @@ function App() {
   const [dataR, setDataR] = useState<ProductData[] | null>(null);
   const [ecoRatingR, setEcoRatingR] = useState<EcoRating[] | null>(null);
 
+  const [score, setScore] = useState(5); // Default score is 5
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newScore = parseInt(e.target.value);
+    setScore(newScore);
+  };
   // useEffect(() => {
   //   chrome.storage.local.get(["onPage"], function (result) {
   //     setOnPage(result.onPage || "");
@@ -153,6 +159,34 @@ function App() {
           Overall Eco-Friendliness Rating:{" "}
           {ecoRating?.["Overall Eco-Friendliness Rating"]}
         </div>
+      </div>
+
+      <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12 px-4 space-y-3">
+        <h1 className="text-lg font-semibold text-center py-3">
+          Progress Bars
+        </h1>
+
+        {/* Danger Bar */}
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden p-1">
+          <div className="relative h-6 flex items-center justify-center">
+            <div
+              className="absolute top-0 bottom-0 left-0 rounded-lg bg-red-200"
+              style={{ width: `${(score / 10) * 100}%` }}
+            ></div>
+            <div className="relative text-red-900 font-medium text-sm">{`${score}%`}</div>
+          </div>
+        </div>
+        {/* END Danger Bar */}
+
+        {/* Slider for changing the score */}
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={score}
+          onChange={handleChange}
+          className="w-full"
+        />
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import "./App.css";
 import { sendReward } from "./lib/sendReward";
 import ProgressBar from "./components/ProgressBar";
 import Header from "./components/Header";
-import img from "./assets/fotor-2024022194124.png";
+const image = require("./assets/fotor-2024022194124.png");
 import DisplayProductData from "./components/ProductData";
 import DisplayEcoRating from "./components/EcoRating";
 // import EcoRating from "./component/EcoRating";
@@ -66,9 +66,20 @@ function App() {
       product_description:
         "This is a detailed description of the sample product.",
       witb_section: ["Section 1", "Section 2", "Section 3"],
-      img_src: img,
+      img_src: image,
+    };
+    const ecoRating: EcoRating = {
+      Material: 7,
+      "Energy Efficiency": 8,
+      Transportation: 6,
+      "End-of-Life Management": 9,
+      "Overall Eco-Friendliness Rating": 8,
     };
     setData(productData);
+    setDataR([productData, productData]);
+
+    setEcoRating(ecoRating);
+    setEcoRatingR([ecoRating, ecoRating]);
   }, []);
   const handleScraping = async () => {
     if (onPage) {

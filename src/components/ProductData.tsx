@@ -21,14 +21,22 @@ const ProductData = ({ data }: ProductDataProps) => {
   return (
     <>
       <div className="flex flex-col items-center">
-        <p className="text-center mb-6">{data?.title}</p>
-        <div className="flex justify-center">
-          <div className="flex items-center">
-            <img src={data?.img_src} alt={data?.title} className="w-80 h-45" />
+        <div className="w-96 flex flex-col">
+          <p className="text-right mt-4 mb-6 font-bold font-sans text-lg ml-auto">
+            {data?.title}
+          </p>
+          <div className="flex justify-start">
+            {" "}
+            {/* Updated */}
+            <div className="flex items-center">
+              <img
+                src={data?.img_src}
+                alt={data?.title}
+                className="w-40 mb-20"
+              />
+            </div>
           </div>
         </div>
-        <div className="h-8"></div>
-        <div className="h-8"></div>
       </div>
     </>
   );

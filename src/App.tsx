@@ -192,134 +192,29 @@ function App() {
       </button>
       {/* Include ProgressBar component */}
       <div className="bg-white p-4 mb-4">
-        {/* ProductData Component to display the image and title like this */}
-        {/* img on left side and title on right side by flex row*/}
         <DisplayProductData data={data} />
-        {/* EcoRating component to display the ratings like this */}
-        {/* <EcoRating totalStars={5} /> */}
-        {/* display these horizontally one by one just like this*/}
         <DisplayEcoRating ecoRating={ecoRating!} />
-        <p className="font-helvetica mb-4 text-2xl text-white">
-          Related suggestions
-        </p>
       </div>
-      {/* */}
-      {/* here the recommended products to be displayed (only 2 sent from backend) */}
-      {/* ProductData Component to display the image and title like this */}
-      {/* img on left side and title on right side by flex row*/}
-      {/* loop through dataR state to display the img and title in a flex col*/}
-      <div className="flex">
+      <p className="font-helvetica mb-4 text-4xl text-white">
+        Related suggestions
+      </p>
+      <div className="flex flex-row">
         <div className="flex-1">
           <div className="bg-white p-4 mb-4 mr-4">
             <DisplayProductData data={dataR[0]} />
             <DisplayEcoRating ecoRating={ecoRatingR[0]} />
-
-            {/* EcoRating component to display the ratings like this */}
-            {/* <EcoRating totalStars={5} /> */}
-            {/* display these horizontally one by one just like this*/}
-            {/* loop through ecoRatingR state to display the categories in a flex col*/}
-            {/* <div className="">Material: {ecoRating?.Material}</div>
-            <ProgressBar progress={ecoRating?.Material!} />
-            <div>Energy Efficiency: {ecoRating?.["Energy Efficiency"]}</div>
-            <ProgressBar progress={ecoRating?.["Energy Efficiency"]!} />
-            <div>Transportation: {ecoRating?.Transportation}</div>
-            <ProgressBar progress={ecoRating?.Transportation!} />
-            <div>
-              End-of-Life Management: {ecoRating?.["End-of-Life Management"]}
-            </div>
-            <ProgressBar progress={ecoRating?.["End-of-Life Management"]!} />
-            <div>
-              Overall Eco-Friendliness Rating:{" "}
-              {ecoRating?.["Overall Eco-Friendliness Rating"]}
-            </div>
-            <ProgressBar
-              progress={ecoRating?.["Overall Eco-Friendliness Rating"]!}
-            /> */}
           </div>
         </div>
 
-        {/* <div className="flex-1"> */}
-        {/* <div className="bg-white p-4 mb-4 ml-4"> */}
-        {/* EcoRating component to display the ratings like this */}
-        {/* <EcoRating totalStars={5} /> */}
-        {/* display these horizontally one by one just like this*/}
-        {/* loop through ecoRatingR state to display the categories in a flex col*/}
-        {/* <div className="">Material: {ecoRating?.Material}</div>
-            <ProgressBar progress={ecoRating?.Material!} />
-            <div>Energy Efficiency: {ecoRating?.["Energy Efficiency"]}</div>
-            <ProgressBar progress={ecoRating?.["Energy Efficiency"]!} />
-            <div>Transportation: {ecoRating?.Transportation}</div>
-            <ProgressBar progress={ecoRating?.Transportation!} />
-            <div>
-              End-of-Life Management: {ecoRating?.["End-of-Life Management"]}
+        <div className="flex">
+          <div className="flex-1">
+            <div className="bg-white p-4 mb-4 mr-4">
+              <DisplayProductData data={dataR[1]} />
+              <DisplayEcoRating ecoRating={ecoRatingR[1]} />
             </div>
-            <ProgressBar progress={ecoRating?.["End-of-Life Management"]!} />
-            <div>
-              Overall Eco-Friendliness Rating:{" "}
-              {ecoRating?.["Overall Eco-Friendliness Rating"]}
-            </div>
-            <ProgressBar
-              progress={ecoRating?.["Overall Eco-Friendliness Rating"]!}
-            /> */}
-        {/* </div> */}
-        {/* </div> */}
-      </div>
-      <div className="flex">
-        <div className="flex-1">
-          <div className="bg-white p-4 mb-4 mr-4">
-            <DisplayProductData data={dataR[1]} />
-            <DisplayEcoRating ecoRating={ecoRatingR[1]} />
-            {/* EcoRating component to display the ratings like this */}
-            {/* <EcoRating totalStars={5} /> */}
-            {/* display these horizontally one by one just like this*/}
-            {/* loop through ecoRatingR state to display the categories in a flex col*/}
-            {/* <div className="">Material: {ecoRating?.Material}</div>
-            <ProgressBar progress={ecoRating?.Material!} />
-            <div>Energy Efficiency: {ecoRating?.["Energy Efficiency"]}</div>
-            <ProgressBar progress={ecoRating?.["Energy Efficiency"]!} />
-            <div>Transportation: {ecoRating?.Transportation}</div>
-            <ProgressBar progress={ecoRating?.Transportation!} />
-            <div>
-              End-of-Life Management: {ecoRating?.["End-of-Life Management"]}
-            </div>
-            <ProgressBar progress={ecoRating?.["End-of-Life Management"]!} />
-            <div>
-              Overall Eco-Friendliness Rating:{" "}
-              {ecoRating?.["Overall Eco-Friendliness Rating"]}
-            </div>
-            <ProgressBar
-              progress={ecoRating?.["Overall Eco-Friendliness Rating"]!}
-            /> */}
           </div>
         </div>
       </div>
-      {/* <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12 px-4 space-y-3">
-        <h1 className="text-lg font-semibold text-center py-3">
-          Progress Bars
-        </h1> */}
-
-      {/* Danger Bar */}
-      {/* <div className="bg-white rounded-xl shadow-sm overflow-hidden p-1">
-          <div className="relative h-6 flex items-center justify-center">
-            <div
-              className="absolute top-0 bottom-0 left-0 rounded-lg bg-red-200"
-              style={{ width: `${(score / 10) * 100}%` }}
-            ></div>
-            <div className="relative text-red-900 font-medium text-sm">{`${score}%`}</div>
-          </div>
-        </div> */}
-      {/* END Danger Bar */}
-
-      {/* Slider for changing the score */}
-      {/* <input
-          type="range"
-          min="1"
-          max="10"
-          value={score}
-          onChange={handleChange}
-          className="w-full"
-        /> */}
-      {/* </div> */}
     </>
   );
 }

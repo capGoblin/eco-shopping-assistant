@@ -200,7 +200,7 @@ function App() {
       </p>
       <div className="flex flex-row">
         <div className="flex-1">
-          <div className="bg-white p-4 mb-4 mr-5">
+          <div className="bg-white p-4 mb-4 mr-4">
             <DisplayProductData data={dataR[0]} />
             <DisplayEcoRating ecoRating={ecoRatingR[0]} />
           </div>
@@ -208,7 +208,7 @@ function App() {
 
         <div className="flex">
           <div className="flex-1">
-            <div className="bg-white p-4 mb-4 ml-5">
+            <div className="bg-white p-4 mb-4 mr5">
               <DisplayProductData data={dataR[1]} />
               <DisplayEcoRating ecoRating={ecoRatingR[1]} />
             </div>

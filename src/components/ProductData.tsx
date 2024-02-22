@@ -20,9 +20,15 @@ interface ProductDataProps {
 const ProductData = ({ data }: ProductDataProps) => {
   return (
     <>
-      <div className="flex flex-row">
-        <img src={data?.img_src} alt={data?.title} />
-        <p>{data?.title}</p>
+      <div className="flex flex-col items-center">
+        <p className="text-center mb-6">{data?.title}</p>
+        <div className="flex justify-center">
+          <div className="flex items-center">
+            <img src={data?.img_src} alt={data?.title} className="w-80 h-45" />
+          </div>
+        </div>
+        <div className="h-8"></div>
+        <div className="h-8"></div>
       </div>
     </>
   );

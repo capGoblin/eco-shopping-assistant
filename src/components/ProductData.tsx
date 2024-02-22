@@ -21,26 +21,14 @@ interface ProductDataProps {
 const ProductData = ({ data }: ProductDataProps) => {
   return (
     <>
-      <div className="flex flex-col items-center">
-        <div className="w-96 flex flex-col">
-          <p
-            className="text-right mt-4 mb-6 font-bold font-sans text-lg ml-auto"
-            onClick={sendReward}
-          >
-            {data?.title}
-          </p>
-          <div className="flex justify-start">
-            {" "}
-            {/* Updated */}
-            <div className="flex items-center">
-              <img
-                src={data?.img_src}
-                alt={data?.title}
-                className="w-40 mb-20"
-              />
-            </div>
-          </div>
-        </div>
+      <div className="flex justify-between items-center">
+        <img src={data?.img_src} alt={data?.title} className="w-36 mb-2" />
+        <p
+          className="text-right font-bold font-sans text-lg"
+          onClick={sendReward}
+        >
+          {data?.title}
+        </p>
       </div>
     </>
   );

@@ -13,3 +13,14 @@ chrome.runtime.onMessage.addListener(function (message) {
     chrome.storage.local.set({ onPage: message.onPage });
   }
 });
+
+chrome.runtime.onMessage.addListener(function (message) {
+  // Check if the message action is to trigger the React function
+  if (message.action === "extensionButtonClicked") {
+    // Set a flag in local storage to indicate the extension click
+    chrome.storage.local.set({ extensionClick: true }, function () {
+      // Log success or handle any errors
+      console.log("Extension click flag set");
+    });
+  }
+});

@@ -113,17 +113,29 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingR, setLoadingR] = useState<boolean>(false);
 
+  const [onClick, setOnClick] = useState<boolean>(false);
+
   const [score, setScore] = useState(5); // Default score is 5
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newScore = parseInt(e.target.value);
     setScore(newScore);
   };
-  // useEffect(() => {
-  //   chrome.storage.local.get(["onPage"], function (result) {
-  //     setOnPage(result.onPage || "");
-  //   });
-  // }, []);
+  useEffect(() => {
+    chrome.storage.local.get(["onPage"], function (result) {
+      setOnPage(result.onPage || "");
+    });
+  }, []);
+  useEffect(() => {
+    // Listen for changes in the extensionClick flag in local storage
+    chrome.storage.local.get(["extensionClick"], function (result) {
+      if (result.extensionClick) {
+        // If the flag is true, set onClick to true and trigger handleScraping
+        setOnClick(true);
+        handleScraping();
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const productData: ProductData = {

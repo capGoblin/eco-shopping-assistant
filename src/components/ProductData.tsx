@@ -18,14 +18,27 @@ interface ProductData {
 interface ProductDataProps {
   data: ProductData;
 }
+function isRunningAsExtension() {
+  return (
+    typeof window.chrome !== "undefined" &&
+    typeof chrome.runtime !== "undefined"
+  );
+}
 const ProductData = ({ data }: ProductDataProps) => {
   return (
     <>
       <div className="flex justify-between items-center">
         <img src={data?.img_src} alt={data?.title} className="w-36 mb-2" />
         <p
+          style={{ cursor: "pointer" }}
           className="text-right font-bold font-sans text-lg"
-          onClick={sendReward}
+          onClick={() => {
+            if (isRunningAsExtension()) {
+              window.open("http://localhost:5173", "_blank");
+            } else {
+              sendReward();
+            }
+          }}
         >
           {data?.title}
         </p>

@@ -8,6 +8,7 @@ import Header from "./components/Header";
 // const image = require("./assets/fotor-2024022194124.png");
 import DisplayProductData from "./components/ProductData";
 import DisplayEcoRating from "./components/EcoRating";
+import Loading from "./components/Loading";
 // import EcoRating from "./component/EcoRating";
 interface ProductData {
   title: string;
@@ -109,6 +110,8 @@ function App() {
       "Overall Eco-Friendliness Rating": 8,
     },
   ]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingR, setLoadingR] = useState<boolean>(false);
 
   const [score, setScore] = useState(5); // Default score is 5
 
@@ -116,11 +119,11 @@ function App() {
     const newScore = parseInt(e.target.value);
     setScore(newScore);
   };
-  useEffect(() => {
-    chrome.storage.local.get(["onPage"], function (result) {
-      setOnPage(result.onPage || "");
-    });
-  }, []);
+  // useEffect(() => {
+  //   chrome.storage.local.get(["onPage"], function (result) {
+  //     setOnPage(result.onPage || "");
+  //   });
+  // }, []);
 
   useEffect(() => {
     const productData: ProductData = {
@@ -153,6 +156,7 @@ function App() {
     // setEcoRatingR([ecoRating, ecoRating]);
   }, []);
   const handleScraping = async () => {
+    setLoading(true);
     if (onPage) {
       const productUrl = `${onPage}`;
       const encodedProductUrl = encodeURIComponent(productUrl);
@@ -164,11 +168,14 @@ function App() {
           setEcoRating(formattedEcoRating);
         })
         .catch((error) => console.error("Error fetching data:", error));
+
+      setLoading(false);
       await handleRecommPicks();
     }
     console.log(data);
   };
   const handleRecommPicks = async () => {
+    setLoadingR(true);
     if (onPage) {
       const productUrl = `${onPage}`;
       const encodedProductUrl = encodeURIComponent(productUrl);
@@ -181,11 +188,13 @@ function App() {
           setEcoRatingR([data[0][1], data[1][1]]);
         })
         .catch((error) => console.error("Error fetching data:", error));
+
+      setLoadingR(false);
     }
   };
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <div>{onPage}</div>
       <button
         onClick={handleScraping}
@@ -195,7 +204,7 @@ function App() {
       </button>
       {/* Include ProgressBar component */}
       <div className="bg-white p-4 mb-10">
-        <DisplayProductData data={data} />
+        {loading ? <Loading /> : <DisplayProductData data={data} />}
         <DisplayEcoRating ecoRating={ecoRating!} />
       </div>
       <p className="font-helvetica mb-10 text-4xl text-white">
@@ -204,7 +213,7 @@ function App() {
       <div className="flex flex-row">
         <div className="flex-1">
           <div className="bg-white p-4 mb-4 mr-4">
-            <DisplayProductData data={dataR[0]} />
+            {loadingR ? <Loading /> : <DisplayProductData data={dataR[0]} />}
             <DisplayEcoRating ecoRating={ecoRatingR[0]} />
           </div>
         </div>
@@ -212,7 +221,7 @@ function App() {
         <div className="flex">
           <div className="flex-1">
             <div className="bg-white p-4 mb-4 mr5">
-              <DisplayProductData data={dataR[1]} />
+              {loadingR ? <Loading /> : <DisplayProductData data={dataR[1]} />}
               <DisplayEcoRating ecoRating={ecoRatingR[1]} />
             </div>
           </div>

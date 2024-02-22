@@ -116,11 +116,11 @@ function App() {
     const newScore = parseInt(e.target.value);
     setScore(newScore);
   };
-  // useEffect(() => {
-  //   chrome.storage.local.get(["onPage"], function (result) {
-  //     setOnPage(result.onPage || "");
-  //   });
-  // }, []);
+  useEffect(() => {
+    chrome.storage.local.get(["onPage"], function (result) {
+      setOnPage(result.onPage || "");
+    });
+  }, []);
 
   useEffect(() => {
     const productData: ProductData = {
@@ -185,9 +185,12 @@ function App() {
   };
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div>{onPage}</div>
-      <button onClick={sendReward} style={{ color: "white", margin: "50px" }}>
+      <button
+        onClick={handleScraping}
+        style={{ color: "white", margin: "50px" }}
+      >
         SCRAPE
       </button>
       {/* Include ProgressBar component */}

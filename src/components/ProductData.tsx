@@ -1,4 +1,5 @@
 import React from "react";
+import { sendReward } from "../lib/sendReward";
 interface ProductData {
   title: string;
   product_overview: {
@@ -22,7 +23,10 @@ const ProductData = ({ data }: ProductDataProps) => {
     <>
       <div className="flex flex-col items-center">
         <div className="w-96 flex flex-col">
-          <p className="text-right mt-4 mb-6 font-bold font-sans text-lg ml-auto">
+          <p
+            className="text-right mt-4 mb-6 font-bold font-sans text-lg ml-auto"
+            onClick={sendReward}
+          >
             {data?.title}
           </p>
           <div className="flex justify-start">

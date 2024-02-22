@@ -191,11 +191,11 @@ function App() {
         SCRAPE
       </button>
       {/* Include ProgressBar component */}
-      <div className="bg-white p-4 mb-4">
+      <div className="bg-white p-4 mb-10">
         <DisplayProductData data={data} />
         <DisplayEcoRating ecoRating={ecoRating!} />
       </div>
-      <p className="font-helvetica mb-4 text-4xl text-white">
+      <p className="font-helvetica mb-10 text-4xl text-white">
         Related suggestions
       </p>
       <div className="flex flex-row">

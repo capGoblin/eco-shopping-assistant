@@ -5,6 +5,9 @@ import "./App.css";
 import { sendReward } from "./lib/sendReward";
 import ProgressBar from "./components/ProgressBar";
 import Header from "./components/Header";
+import img from "./assets/fotor-2024022194124.png";
+import DisplayProductData from "./components/ProductData";
+import DisplayEcoRating from "./components/EcoRating";
 // import EcoRating from "./component/EcoRating";
 interface ProductData {
   title: string;
@@ -46,6 +49,27 @@ function App() {
   //     setOnPage(result.onPage || "");
   //   });
   // }, []);
+
+  useEffect(() => {
+    const productData: ProductData = {
+      title: "Sample Product",
+      product_overview: {
+        Weight: "1kg",
+        Color: "Red",
+      },
+      about_this_item: "This is a sample product for demonstration purposes.",
+      product_info: "This product is made from high-quality materials.",
+      product_info_2: {
+        Manufacturer: "Sample Manufacturer",
+        Material: "Plastic",
+      },
+      product_description:
+        "This is a detailed description of the sample product.",
+      witb_section: ["Section 1", "Section 2", "Section 3"],
+      img_src: img,
+    };
+    setData(productData);
+  }, []);
   const handleScraping = async () => {
     if (onPage) {
       const productUrl = `${onPage}`;
@@ -88,36 +112,13 @@ function App() {
       <div className="bg-white p-4 mb-4">
         {/* ProductData Component to display the image and title like this */}
         {/* img on left side and title on right side by flex row*/}
-        <div>
-          <img src={data?.img_src} alt={data?.title} />
-          <p>{data?.title}</p>
-        </div>
+        <DisplayProductData data={data!} />
         {/* EcoRating component to display the ratings like this */}
         {/* <EcoRating totalStars={5} /> */}
         {/* display these horizontally one by one just like this*/}
-        <div>
-          Material: {ecoRating?.Material}
-          <ProgressBar progress={5} />
-        </div>
-        <div>
-          Energy Efficiency: {ecoRating?.["Energy Efficiency"]}
-          <ProgressBar progress={5} />
-        </div>
-        <div>Transportation: {ecoRating?.Transportation}</div>
-        <ProgressBar progress={5} />
-        <div>
-          End-of-Life Management: {ecoRating?.["End-of-Life Management"]}
-          <ProgressBar progress={5} />
-        </div>
-        <div>
-          Overall Eco-Friendliness Rating:{" "}
-          {ecoRating?.["Overall Eco-Friendliness Rating"]}
-          <ProgressBar progress={5} />
-        </div>
-      </div>
-      <div>
+        <DisplayEcoRating ecoRating={ecoRating!} />
         <p className="font-helvetica mb-4 text-2xl text-white">
-        Related suggestions
+          Related suggestions
         </p>
       </div>
       {/* */}
@@ -128,59 +129,61 @@ function App() {
       <div className="flex">
         <div className="flex-1">
           <div className="bg-white p-4 mb-4 mr-4">
-            <div>
-              <img src={data?.img_src} alt={data?.title} />
-              <p>{data?.title}</p>
-            </div>
+            {dataR?.map((product) => {
+              return <DisplayProductData data={product} />;
+            })}
+            {ecoRatingR?.map((rating) => {
+              return <DisplayEcoRating ecoRating={rating} />;
+            })}
             {/* EcoRating component to display the ratings like this */}
             {/* <EcoRating totalStars={5} /> */}
             {/* display these horizontally one by one just like this*/}
             {/* loop through ecoRatingR state to display the categories in a flex col*/}
-            <div className="">Material: {ecoRating?.Material}</div>
-            <ProgressBar progress={5} />
+            {/* <div className="">Material: {ecoRating?.Material}</div>
+            <ProgressBar progress={ecoRating?.Material!} />
             <div>Energy Efficiency: {ecoRating?.["Energy Efficiency"]}</div>
-            <ProgressBar progress={5} />
+            <ProgressBar progress={ecoRating?.["Energy Efficiency"]!} />
             <div>Transportation: {ecoRating?.Transportation}</div>
-            <ProgressBar progress={5} />
+            <ProgressBar progress={ecoRating?.Transportation!} />
             <div>
               End-of-Life Management: {ecoRating?.["End-of-Life Management"]}
             </div>
-            <ProgressBar progress={5} />
+            <ProgressBar progress={ecoRating?.["End-of-Life Management"]!} />
             <div>
               Overall Eco-Friendliness Rating:{" "}
               {ecoRating?.["Overall Eco-Friendliness Rating"]}
             </div>
-            <ProgressBar progress={5} />
+            <ProgressBar
+              progress={ecoRating?.["Overall Eco-Friendliness Rating"]!}
+            /> */}
           </div>
         </div>
 
-        <div className="flex-1">
-          <div className="bg-white p-4 mb-4 ml-4">
-            <div>
-              <img src={data?.img_src} alt={data?.title} />
-              <p>{data?.title}</p>
-            </div>
-            {/* EcoRating component to display the ratings like this */}
-            {/* <EcoRating totalStars={5} /> */}
-            {/* display these horizontally one by one just like this*/}
-            {/* loop through ecoRatingR state to display the categories in a flex col*/}
-            <div className="">Material: {ecoRating?.Material}</div>
-            <ProgressBar progress={5} />
+        {/* <div className="flex-1"> */}
+        {/* <div className="bg-white p-4 mb-4 ml-4"> */}
+        {/* EcoRating component to display the ratings like this */}
+        {/* <EcoRating totalStars={5} /> */}
+        {/* display these horizontally one by one just like this*/}
+        {/* loop through ecoRatingR state to display the categories in a flex col*/}
+        {/* <div className="">Material: {ecoRating?.Material}</div>
+            <ProgressBar progress={ecoRating?.Material!} />
             <div>Energy Efficiency: {ecoRating?.["Energy Efficiency"]}</div>
-            <ProgressBar progress={5} />
+            <ProgressBar progress={ecoRating?.["Energy Efficiency"]!} />
             <div>Transportation: {ecoRating?.Transportation}</div>
-            <ProgressBar progress={5} />
+            <ProgressBar progress={ecoRating?.Transportation!} />
             <div>
               End-of-Life Management: {ecoRating?.["End-of-Life Management"]}
             </div>
-            <ProgressBar progress={5} />
+            <ProgressBar progress={ecoRating?.["End-of-Life Management"]!} />
             <div>
               Overall Eco-Friendliness Rating:{" "}
               {ecoRating?.["Overall Eco-Friendliness Rating"]}
             </div>
-            <ProgressBar progress={5} />
-          </div>
-        </div>
+            <ProgressBar
+              progress={ecoRating?.["Overall Eco-Friendliness Rating"]!}
+            /> */}
+        {/* </div> */}
+        {/* </div> */}
       </div>
       {/* <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12 px-4 space-y-3">
         <h1 className="text-lg font-semibold text-center py-3">

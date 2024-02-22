@@ -5,7 +5,7 @@ import "./App.css";
 import { sendReward } from "./lib/sendReward";
 import ProgressBar from "./components/ProgressBar";
 import Header from "./components/Header";
-const image = require("./assets/fotor-2024022194124.png");
+// const image = require("./assets/fotor-2024022194124.png");
 import DisplayProductData from "./components/ProductData";
 import DisplayEcoRating from "./components/EcoRating";
 // import EcoRating from "./component/EcoRating";
@@ -32,11 +32,83 @@ interface EcoRating {
 }
 function App() {
   const [onPage, setOnPage] = useState<string>("");
-  const [data, setData] = useState<ProductData | null>(null);
-  const [ecoRating, setEcoRating] = useState<EcoRating | null>(null);
+  const [data, setData] = useState<ProductData>({
+    title: "Sample Product",
+    product_overview: {
+      Weight: "1kg",
+      Color: "Red",
+    },
+    about_this_item: "This is a sample product for demonstration purposes.",
+    product_info: "This product is made from high-quality materials.",
+    product_info_2: {
+      Manufacturer: "Sample Manufacturer",
+      Material: "Plastic",
+    },
+    product_description:
+      "This is a detailed description of the sample product.",
+    witb_section: ["Section 1", "Section 2", "Section 3"],
+    img_src: "../fotor-2024022194124.png",
+  });
+  const [ecoRating, setEcoRating] = useState<EcoRating>({
+    Material: 7,
+    "Energy Efficiency": 8,
+    Transportation: 6,
+    "End-of-Life Management": 9,
+    "Overall Eco-Friendliness Rating": 8,
+  });
 
-  const [dataR, setDataR] = useState<ProductData[] | null>(null);
-  const [ecoRatingR, setEcoRatingR] = useState<EcoRating[] | null>(null);
+  const [dataR, setDataR] = useState<ProductData[]>([
+    {
+      title: "Sample Product",
+      product_overview: {
+        Weight: "1kg",
+        Color: "Red",
+      },
+      about_this_item: "This is a sample product for demonstration purposes.",
+      product_info: "This product is made from high-quality materials.",
+      product_info_2: {
+        Manufacturer: "Sample Manufacturer",
+        Material: "Plastic",
+      },
+      product_description:
+        "This is a detailed description of the sample product.",
+      witb_section: ["Section 1", "Section 2", "Section 3"],
+      img_src: "../fotor-2024022194124.png",
+    },
+    {
+      title: "Sample Product",
+      product_overview: {
+        Weight: "1kg",
+        Color: "Red",
+      },
+      about_this_item: "This is a sample product for demonstration purposes.",
+      product_info: "This product is made from high-quality materials.",
+      product_info_2: {
+        Manufacturer: "Sample Manufacturer",
+        Material: "Plastic",
+      },
+      product_description:
+        "This is a detailed description of the sample product.",
+      witb_section: ["Section 1", "Section 2", "Section 3"],
+      img_src: "../fotor-2024022194124.png",
+    },
+  ]);
+  const [ecoRatingR, setEcoRatingR] = useState<EcoRating[]>([
+    {
+      Material: 7,
+      "Energy Efficiency": 8,
+      Transportation: 6,
+      "End-of-Life Management": 9,
+      "Overall Eco-Friendliness Rating": 8,
+    },
+    {
+      Material: 7,
+      "Energy Efficiency": 8,
+      Transportation: 6,
+      "End-of-Life Management": 9,
+      "Overall Eco-Friendliness Rating": 8,
+    },
+  ]);
 
   const [score, setScore] = useState(5); // Default score is 5
 
@@ -66,7 +138,7 @@ function App() {
       product_description:
         "This is a detailed description of the sample product.",
       witb_section: ["Section 1", "Section 2", "Section 3"],
-      img_src: image,
+      img_src: "./assets/react.svg",
     };
     const ecoRating: EcoRating = {
       Material: 7,
@@ -75,11 +147,10 @@ function App() {
       "End-of-Life Management": 9,
       "Overall Eco-Friendliness Rating": 8,
     };
-    setData(productData);
-    setDataR([productData, productData]);
+    // setData(productData);
 
-    setEcoRating(ecoRating);
-    setEcoRatingR([ecoRating, ecoRating]);
+    // setEcoRating(ecoRating);
+    // setEcoRatingR([ecoRating, ecoRating]);
   }, []);
   const handleScraping = async () => {
     if (onPage) {
@@ -123,7 +194,7 @@ function App() {
       <div className="bg-white p-4 mb-4">
         {/* ProductData Component to display the image and title like this */}
         {/* img on left side and title on right side by flex row*/}
-        <DisplayProductData data={data!} />
+        <DisplayProductData data={data} />
         {/* EcoRating component to display the ratings like this */}
         {/* <EcoRating totalStars={5} /> */}
         {/* display these horizontally one by one just like this*/}
@@ -140,12 +211,9 @@ function App() {
       <div className="flex">
         <div className="flex-1">
           <div className="bg-white p-4 mb-4 mr-4">
-            {dataR?.map((product) => {
-              return <DisplayProductData data={product} />;
-            })}
-            {ecoRatingR?.map((rating) => {
-              return <DisplayEcoRating ecoRating={rating} />;
-            })}
+            <DisplayProductData data={dataR[0]} />
+            <DisplayEcoRating ecoRating={ecoRatingR[0]} />
+
             {/* EcoRating component to display the ratings like this */}
             {/* <EcoRating totalStars={5} /> */}
             {/* display these horizontally one by one just like this*/}
@@ -195,6 +263,35 @@ function App() {
             /> */}
         {/* </div> */}
         {/* </div> */}
+      </div>
+      <div className="flex">
+        <div className="flex-1">
+          <div className="bg-white p-4 mb-4 mr-4">
+            <DisplayProductData data={dataR[1]} />
+            <DisplayEcoRating ecoRating={ecoRatingR[1]} />
+            {/* EcoRating component to display the ratings like this */}
+            {/* <EcoRating totalStars={5} /> */}
+            {/* display these horizontally one by one just like this*/}
+            {/* loop through ecoRatingR state to display the categories in a flex col*/}
+            {/* <div className="">Material: {ecoRating?.Material}</div>
+            <ProgressBar progress={ecoRating?.Material!} />
+            <div>Energy Efficiency: {ecoRating?.["Energy Efficiency"]}</div>
+            <ProgressBar progress={ecoRating?.["Energy Efficiency"]!} />
+            <div>Transportation: {ecoRating?.Transportation}</div>
+            <ProgressBar progress={ecoRating?.Transportation!} />
+            <div>
+              End-of-Life Management: {ecoRating?.["End-of-Life Management"]}
+            </div>
+            <ProgressBar progress={ecoRating?.["End-of-Life Management"]!} />
+            <div>
+              Overall Eco-Friendliness Rating:{" "}
+              {ecoRating?.["Overall Eco-Friendliness Rating"]}
+            </div>
+            <ProgressBar
+              progress={ecoRating?.["Overall Eco-Friendliness Rating"]!}
+            /> */}
+          </div>
+        </div>
       </div>
       {/* <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12 px-4 space-y-3">
         <h1 className="text-lg font-semibold text-center py-3">

@@ -10,7 +10,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   progress,
 }: ProgressBarProps) => {
   // Calculate width percentage based on progress value between 1 and 10
-  const widthPercentage = (progress / 10) * 100;
+  const widthPercentage = progress * 10;
 
   return (
     <div className="progress-bar-container">

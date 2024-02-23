@@ -24,12 +24,12 @@ interface ProductData {
   witb_section: string[];
   img_src: string;
 }
-interface EcoRating {
-  Material: number;
-  "Energy Efficiency": number;
-  Transportation: number;
-  "End-of-Life Management": number;
-  "Overall Eco-Friendliness Rating": number;
+export interface EcoRating {
+  Material: any;
+  "Energy Efficiency": any;
+  Transportation: any;
+  "End-of-Life Management": any;
+  "Overall Eco-Friendliness Rating": any;
 }
 function App() {
   const [onPage, setOnPage] = useState<string>("");
@@ -121,21 +121,21 @@ function App() {
     const newScore = parseInt(e.target.value);
     setScore(newScore);
   };
-  // useEffect(() => {
-  //   chrome.storage.local.get(["onPage"], function (result) {
-  //     setOnPage(result.onPage || "");
-  //   });
-  // }, []);
-  // useEffect(() => {
-  //   // Listen for changes in the extensionClick flag in local storage
-  //   chrome.storage.local.get(["extensionClick"], function (result) {
-  //     if (result.extensionClick) {
-  //       // If the flag is true, set onClick to true and trigger handleScraping
-  //       setOnClick(true);
-  //       handleScraping();
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    chrome.storage.local.get(["onPage"], function (result) {
+      setOnPage(result.onPage || "");
+    });
+  }, []);
+  useEffect(() => {
+    // Listen for changes in the extensionClick flag in local storage
+    chrome.storage.local.get(["extensionClick"], function (result) {
+      if (result.extensionClick) {
+        // If the flag is true, set onClick to true and trigger handleScraping
+        setOnClick(true);
+        handleScraping();
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const productData: ProductData = {
@@ -207,7 +207,7 @@ function App() {
   return (
     <>
       <Header />
-      <div>{onPage}</div>
+      <div>{onPage ? "ya" : null}</div>
       <button
         onClick={handleScraping}
         style={{ color: "white", margin: "50px" }}
@@ -216,7 +216,11 @@ function App() {
       </button>
       {/* Include ProgressBar component */}
       <div className="bg-white p-4 mb-10">
-        {loading ? <Loading /> : <DisplayProductData data={data} />}
+        {loading ? (
+          <Loading />
+        ) : (
+          <DisplayProductData data={data} widthClass="w-36" />
+        )}
         <DisplayEcoRating ecoRating={ecoRating!} />
       </div>
       <p className="font-helvetica mb-10 text-4xl text-white">
@@ -225,7 +229,11 @@ function App() {
       <div className="flex flex-row">
         <div className="flex-1">
           <div className="bg-white p-4 mb-4 mr-4">
-            {loadingR ? <Loading /> : <DisplayProductData data={dataR[0]} />}
+            {loadingR ? (
+              <Loading />
+            ) : (
+              <DisplayProductData data={dataR[0]} widthClass="w-24" />
+            )}
             <DisplayEcoRating ecoRating={ecoRatingR[0]} />
           </div>
         </div>
@@ -233,7 +241,11 @@ function App() {
         <div className="flex">
           <div className="flex-1">
             <div className="bg-white p-4 mb-4 mr5">
-              {loadingR ? <Loading /> : <DisplayProductData data={dataR[1]} />}
+              {loadingR ? (
+                <Loading />
+              ) : (
+                <DisplayProductData data={dataR[1]} widthClass="w-24" />
+              )}
               <DisplayEcoRating ecoRating={ecoRatingR[1]} />
             </div>
           </div>

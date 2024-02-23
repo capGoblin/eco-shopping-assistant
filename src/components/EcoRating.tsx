@@ -1,30 +1,43 @@
 import React from "react";
 import ProgressBar from "./ProgressBar";
-interface EcoRating {
-  Material: number;
-  "Energy Efficiency": number;
-  Transportation: number;
-  "End-of-Life Management": number;
-  "Overall Eco-Friendliness Rating": number;
-}
+import { EcoRating } from "../App";
+// interface EcoRating {
+//   Material: number;
+//   "Energy Efficiency": number;
+//   Transportation: number;
+//   "End-of-Life Management": number;
+//   "Overall Eco-Friendliness Rating": number;
+// }
 interface EcoRatingProps {
   ecoRating: EcoRating;
 }
-const EcoRating = ({ ecoRating }: EcoRatingProps) => {
+const DisplayEcoRating = ({ ecoRating }: EcoRatingProps) => {
   return (
     <div>
-      <div className="">Material: </div>
+      <div className="">
+        <strong>Material: </strong> {ecoRating?.Material!}
+      </div>
       <ProgressBar progress={ecoRating?.Material!} />
-      <div>Energy Efficiency: </div>
+      <div>
+        <strong>Energy Efficiency</strong> {ecoRating?.["Energy Efficiency"]!}
+      </div>
       <ProgressBar progress={ecoRating?.["Energy Efficiency"]!} />
-      <div>Transportation: </div>
+      <div>
+        <strong>Transportation:</strong> {ecoRating?.Transportation!}{" "}
+      </div>
       <ProgressBar progress={ecoRating?.Transportation!} />
-      <div>End-of-Life Management: </div>
+      <div>
+        <strong>End-of-Life Management:</strong>{" "}
+        {ecoRating?.["End-of-Life Management"]!}{" "}
+      </div>
       <ProgressBar progress={ecoRating?.["End-of-Life Management"]!} />
-      <div>Overall Eco-Friendliness Rating: </div>
+      <div>
+        <strong>Overall Eco-Friendliness Rating: </strong>{" "}
+        {ecoRating?.["Overall Eco-Friendliness Rating"]!}
+      </div>
       <ProgressBar progress={ecoRating?.["Overall Eco-Friendliness Rating"]!} />
     </div>
   );
 };
 
-export default EcoRating;
+export default DisplayEcoRating;

@@ -44,7 +44,7 @@ export default async function generateEcoRating(jsonData: any) {
   //   Product Info 2: ${productDetails.product_info_2}
   //   Product Description: ${productDetails.product_description}
   //   WITB Section: ${productDetails.witb_section}`;
-  const prompt = `${jsonData} give eco-friendliness score based on above information, rating from 1(less eco-friendly to environment) to 5(more exo-friendly to environment) each categories such as Material, Energy Efficiency, Transportation (assuming delivery to South India), End-of-Life Management (give score depending on disposability of this material), and Overall Eco-Friendliness Rating(overall score more weight on Material). If couldn't find any info on a category give neutral score, Provide only scores for all categories.
+  const prompt = `${jsonData} give eco-friendliness score based on above information, rating from 1(less impact on the environment) to 10(more impact on environment) each categories such as Material, Energy Efficiency, Transportation (assuming delivery to South India), End-of-Life Management (give score depending on disposability of this material), and Overall Eco-Friendliness Rating(overall score more weight on Material). Add a short reason in few chars in brackets for each category. If couldn't find any info on a category give neutral score.
   `;
   console.log(prompt);
 

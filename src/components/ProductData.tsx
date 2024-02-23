@@ -17,6 +17,7 @@ interface ProductData {
 
 interface ProductDataProps {
   data: ProductData;
+  widthClass: string;
 }
 function isRunningAsExtension() {
   return (
@@ -24,14 +25,18 @@ function isRunningAsExtension() {
     typeof chrome.runtime !== "undefined"
   );
 }
-const ProductData = ({ data }: ProductDataProps) => {
+const ProductData = ({ data, widthClass }: ProductDataProps) => {
   return (
     <>
       <div className="flex justify-between items-center">
-        <img src={data?.img_src} alt={data?.title} className="w-36 mb-2" />
+        <img
+          src={data?.img_src}
+          alt={data?.title}
+          className={`${widthClass} mb-2`}
+        />
         <p
           style={{ cursor: "pointer" }}
-          className="text-right font-bold font-sans text-lg"
+          className="text-right font-bold font-sans text-lg w-40"
           onClick={() => {
             if (isRunningAsExtension()) {
               window.open("http://localhost:5173", "_blank");
@@ -40,7 +45,7 @@ const ProductData = ({ data }: ProductDataProps) => {
             }
           }}
         >
-          {data?.title}
+          {data?.title.slice(0, 20)}...
         </p>
       </div>
     </>

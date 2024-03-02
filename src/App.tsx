@@ -63,17 +63,17 @@ function App() {
       "Overall Eco-Friendliness Rating": 8,
     }
   );
-useEffect(() => {
-  chrome.storage.local.get(['ecoRating'], function(result) {
-    setEcoRating(result.ecoRating ? result.ecoRating : {
-      Material: 7,
-      "Energy Efficiency": 8,
-      Transportation: 6,
-      "End-of-Life Management": 9,
-      "Overall Eco-Friendliness Rating": 8,
-    });
-  });
-}, []);
+// useEffect(() => {
+//   chrome.storage.local.get(['ecoRating'], function(result) {
+//     setEcoRating(result.ecoRating ? result.ecoRating : {
+//       Material: 7,
+//       "Energy Efficiency": 8,
+//       Transportation: 6,
+//       "End-of-Life Management": 9,
+//       "Overall Eco-Friendliness Rating": 8,
+//     });
+//   });
+// }, []);
   const [dataR, setDataR] = useState<ProductData[]>(() => {
     
     const storedData = localStorage.getItem('dataR');
@@ -131,26 +131,26 @@ useEffect(() => {
       "Overall Eco-Friendliness Rating": 8,
     },
   ]);
-  useEffect(() => {
-  chrome.storage.local.get(['ecoRatingR'], function(result) {
-    setEcoRatingR(result.ecoRatingR ? result.ecoRatingR : [
-      {
-        Material: 7,
-        "Energy Efficiency": 8,
-        Transportation: 6,
-        "End-of-Life Management": 9,
-        "Overall Eco-Friendliness Rating": 8,
-      },
-      {
-        Material: 7,
-        "Energy Efficiency": 8,
-        Transportation: 6,
-        "End-of-Life Management": 9,
-        "Overall Eco-Friendliness Rating": 8,
-      },
-    ]);
-  });
-}, []);
+//   useEffect(() => {
+//   chrome.storage.local.get(['ecoRatingR'], function(result) {
+//     setEcoRatingR(result.ecoRatingR ? result.ecoRatingR : [
+//       {
+//         Material: 7,
+//         "Energy Efficiency": 8,
+//         Transportation: 6,
+//         "End-of-Life Management": 9,
+//         "Overall Eco-Friendliness Rating": 8,
+//       },
+//       {
+//         Material: 7,
+//         "Energy Efficiency": 8,
+//         Transportation: 6,
+//         "End-of-Life Management": 9,
+//         "Overall Eco-Friendliness Rating": 8,
+//       },
+//     ]);
+//   });
+// }, []);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingR, setLoadingR] = useState<boolean>(false);
 
@@ -187,33 +187,33 @@ useEffect(() => {
     localStorage.setItem("dataR", JSON.stringify(dataR))
   }, [dataR])
   
-  useEffect(() => {
-    chrome.storage.local.set({
-      ecoRating: ecoRating
-    });
-  }, [ecoRating]);
-  useEffect(() => {
-    chrome.storage.local.set({
-      ecoRatingR: ecoRatingR
-    });
-  }, [ecoRatingR]);
+  // useEffect(() => {
+  //   chrome.storage.local.set({
+  //     ecoRating: ecoRating
+  //   });
+  // }, [ecoRating]);
+  // useEffect(() => {
+  //   chrome.storage.local.set({
+  //     ecoRatingR: ecoRatingR
+  //   });
+  // }, [ecoRatingR]);
 
   
-  useEffect(() => {
-    chrome.storage.local.get(["onPage"], function (result) {
-      setOnPage(result.onPage || "");
-    });
-  }, []);
-  useEffect(() => {
-    // Listen for changes in the extensionClick flag in local storage
-    chrome.storage.local.get(["extensionClick"], function (result) {
-      if (result.extensionClick) {
-        // If the flag is true, set onClick to true and trigger handleScraping
-        setOnClick(true);
-        handleScraping();
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   chrome.storage.local.get(["onPage"], function (result) {
+  //     setOnPage(result.onPage || "");
+  //   });
+  // }, []);
+  // useEffect(() => {
+  //   // Listen for changes in the extensionClick flag in local storage
+  //   chrome.storage.local.get(["extensionClick"], function (result) {
+  //     if (result.extensionClick) {
+  //       // If the flag is true, set onClick to true and trigger handleScraping
+  //       setOnClick(true);
+  //       handleScraping();
+  //     }
+  //   });
+  // }, []);
 
   const handleScraping = async () => {
     setLoading(true);

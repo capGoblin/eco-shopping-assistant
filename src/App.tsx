@@ -33,31 +33,56 @@ export interface EcoRating {
 }
 function App() {
   const [onPage, setOnPage] = useState<string>("");
-  const [data, setData] = useState<ProductData>({
-    title: "Sample Product",
-    product_overview: {
-      Weight: "1kg",
-      Color: "Red",
-    },
-    about_this_item: "This is a sample product for demonstration purposes.",
-    product_info: "This product is made from high-quality materials.",
-    product_info_2: {
-      Manufacturer: "Sample Manufacturer",
-      Material: "Plastic",
-    },
-    product_description:
-      "This is a detailed description of the sample product.",
-    witb_section: ["Section 1", "Section 2", "Section 3"],
-    img_src: "../fotor-2024022194124.png",
+  const [data, setData] = useState<ProductData>(() => {
+    const storedData = localStorage.getItem('data');
+    return storedData ? JSON.parse(storedData) : {
+      title: "Sample Product",
+      product_overview: {
+        Weight: "1kg",
+        Color: "Red",
+      },
+      about_this_item: "This is a sample product for demonstration purposes.",
+      product_info: "This product is made from high-quality materials.",
+      product_info_2: {
+        Manufacturer: "Sample Manufacturer",
+        Material: "Plastic",
+      },
+      product_description: "This is a detailed description of the sample product.",
+      witb_section: ["Section 1", "Section 2", "Section 3"],
+      img_src: "../fotor-2024022194124.png",
+    };
   });
-  const [ecoRating, setEcoRating] = useState<EcoRating>({
-    Material: 7,
-    "Energy Efficiency": 8,
-    Transportation: 6,
-    "End-of-Life Management": 9,
-    "Overall Eco-Friendliness Rating": 8,
+  
+  const [ecoRating, setEcoRating] = useState<EcoRating>(
+    // const storedEcoRatings = localStorage.getItem('ecoRating')
+    // console.log(storedEcoRatings);
+    // console.log(JSON.parse(storedEcoRatings!));
+    // return storedEcoRatings ? JSON.parse(storedEcoRatings!) : {
+    //   Material: 7,
+    //   "Energy Efficiency": 8,
+    //   Transportation: 6,
+    //   "End-of-Life Management": 9,
+    //   "Overall Eco-Friendliness Rating": 8,
+    // };
+    {
+      Material: 7,
+      "Energy Efficiency": 8,
+      Transportation: 6,
+      "End-of-Life Management": 9,
+      "Overall Eco-Friendliness Rating": 8,
+    }
+  );
+useEffect(() => {
+  chrome.storage.local.get(['ecoRating'], function(result) {
+    setEcoRating(result.ecoRating ? result.ecoRating : {
+      Material: 7,
+      "Energy Efficiency": 8,
+      Transportation: 6,
+      "End-of-Life Management": 9,
+      "Overall Eco-Friendliness Rating": 8,
+    });
   });
-
+}, []);
   const [dataR, setDataR] = useState<ProductData[]>([
     {
       title: "Sample Product",
@@ -121,6 +146,23 @@ function App() {
     const newScore = parseInt(e.target.value);
     setScore(newScore);
   };
+
+  useEffect(() => {
+    // localStorage.setItem("ecoRating", JSON.stringify({
+    //   Material: 7,
+    //   "Energy Efficiency": 8,
+    //   Transportation: 6,
+    //   "End-of-Life Management": 9,
+    //   "Overall Eco-Friendliness Rating": 8,
+    // }))
+
+    localStorage.setItem("data", JSON.stringify(data))
+  }, [data])
+  useEffect(() => {
+    chrome.storage.local.set({
+      ecoRating: ecoRating
+    });
+  }, [ecoRating]);
   useEffect(() => {
     chrome.storage.local.get(["onPage"], function (result) {
       setOnPage(result.onPage || "");
@@ -168,6 +210,13 @@ function App() {
     // setEcoRatingR([ecoRating, ecoRating]);
   }, []);
   const handleScraping = async () => {
+    // setEcoRating({
+    //   Material: 7,
+    //   "Energy Efficiency": 8,
+    //   Transportation: 6,
+    //   "End-of-Life Management": 9 ,
+    //   "Overall Eco-Friendliness Rating": 8,
+    // });
     setLoading(true);
     if (onPage) {
       const productUrl = `${onPage}`;

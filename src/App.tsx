@@ -54,16 +54,7 @@ function App() {
   });
   
   const [ecoRating, setEcoRating] = useState<EcoRating>(
-    // const storedEcoRatings = localStorage.getItem('ecoRating')
-    // console.log(storedEcoRatings);
-    // console.log(JSON.parse(storedEcoRatings!));
-    // return storedEcoRatings ? JSON.parse(storedEcoRatings!) : {
-    //   Material: 7,
-    //   "Energy Efficiency": 8,
-    //   Transportation: 6,
-    //   "End-of-Life Management": 9,
-    //   "Overall Eco-Friendliness Rating": 8,
-    // };
+
     {
       Material: 7,
       "Energy Efficiency": 8,
@@ -83,42 +74,47 @@ useEffect(() => {
     });
   });
 }, []);
-  const [dataR, setDataR] = useState<ProductData[]>([
-    {
-      title: "Sample Product",
-      product_overview: {
-        Weight: "1kg",
-        Color: "Red",
+  const [dataR, setDataR] = useState<ProductData[]>(() => {
+    
+    const storedData = localStorage.getItem('dataR');
+    return storedData ? JSON.parse(storedData) : [
+      {
+        title: "Sample Product",
+        product_overview: {
+          Weight: "1kg",
+          Color: "Red",
+        },
+        about_this_item: "This is a sample product for demonstration purposes.",
+        product_info: "This product is made from high-quality materials.",
+        product_info_2: {
+          Manufacturer: "Sample Manufacturer",
+          Material: "Plastic",
+        },
+        product_description:
+          "This is a detailed description of the sample product.",
+        witb_section: ["Section 1", "Section 2", "Section 3"],
+        img_src: "../fotor-2024022194124.png",
       },
-      about_this_item: "This is a sample product for demonstration purposes.",
-      product_info: "This product is made from high-quality materials.",
-      product_info_2: {
-        Manufacturer: "Sample Manufacturer",
-        Material: "Plastic",
+      {
+        title: "Sample Product",
+        product_overview: {
+          Weight: "1kg",
+          Color: "Red",
+        },
+        about_this_item: "This is a sample product for demonstration purposes.",
+        product_info: "This product is made from high-quality materials.",
+        product_info_2: {
+          Manufacturer: "Sample Manufacturer",
+          Material: "Plastic",
+        },
+        product_description:
+          "This is a detailed description of the sample product.",
+        witb_section: ["Section 1", "Section 2", "Section 3"],
+        img_src: "../fotor-2024022194124.png",
       },
-      product_description:
-        "This is a detailed description of the sample product.",
-      witb_section: ["Section 1", "Section 2", "Section 3"],
-      img_src: "../fotor-2024022194124.png",
-    },
-    {
-      title: "Sample Product",
-      product_overview: {
-        Weight: "1kg",
-        Color: "Red",
-      },
-      about_this_item: "This is a sample product for demonstration purposes.",
-      product_info: "This product is made from high-quality materials.",
-      product_info_2: {
-        Manufacturer: "Sample Manufacturer",
-        Material: "Plastic",
-      },
-      product_description:
-        "This is a detailed description of the sample product.",
-      witb_section: ["Section 1", "Section 2", "Section 3"],
-      img_src: "../fotor-2024022194124.png",
-    },
-  ]);
+    ];
+  
+  });
   const [ecoRatingR, setEcoRatingR] = useState<EcoRating[]>([
     {
       Material: 7,
@@ -135,6 +131,26 @@ useEffect(() => {
       "Overall Eco-Friendliness Rating": 8,
     },
   ]);
+  useEffect(() => {
+  chrome.storage.local.get(['ecoRatingR'], function(result) {
+    setEcoRatingR(result.ecoRatingR ? result.ecoRatingR : [
+      {
+        Material: 7,
+        "Energy Efficiency": 8,
+        Transportation: 6,
+        "End-of-Life Management": 9,
+        "Overall Eco-Friendliness Rating": 8,
+      },
+      {
+        Material: 7,
+        "Energy Efficiency": 8,
+        Transportation: 6,
+        "End-of-Life Management": 9,
+        "Overall Eco-Friendliness Rating": 8,
+      },
+    ]);
+  });
+}, []);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingR, setLoadingR] = useState<boolean>(false);
 
@@ -158,11 +174,31 @@ useEffect(() => {
 
     localStorage.setItem("data", JSON.stringify(data))
   }, [data])
+
+    useEffect(() => {
+    // localStorage.setItem("ecoRating", JSON.stringify({
+    //   Material: 7,
+    //   "Energy Efficiency": 8,
+    //   Transportation: 6,
+    //   "End-of-Life Management": 9,
+    //   "Overall Eco-Friendliness Rating": 8,
+    // }))
+
+    localStorage.setItem("dataR", JSON.stringify(dataR))
+  }, [dataR])
+  
   useEffect(() => {
     chrome.storage.local.set({
       ecoRating: ecoRating
     });
   }, [ecoRating]);
+  useEffect(() => {
+    chrome.storage.local.set({
+      ecoRatingR: ecoRatingR
+    });
+  }, [ecoRatingR]);
+
+  
   useEffect(() => {
     chrome.storage.local.get(["onPage"], function (result) {
       setOnPage(result.onPage || "");
@@ -179,44 +215,7 @@ useEffect(() => {
     });
   }, []);
 
-  useEffect(() => {
-    const productData: ProductData = {
-      title: "Sample Product",
-      product_overview: {
-        Weight: "1kg",
-        Color: "Red",
-      },
-      about_this_item: "This is a sample product for demonstration purposes.",
-      product_info: "This product is made from high-quality materials.",
-      product_info_2: {
-        Manufacturer: "Sample Manufacturer",
-        Material: "Plastic",
-      },
-      product_description:
-        "This is a detailed description of the sample product.",
-      witb_section: ["Section 1", "Section 2", "Section 3"],
-      img_src: "./assets/react.svg",
-    };
-    const ecoRating: EcoRating = {
-      Material: 7,
-      "Energy Efficiency": 8,
-      Transportation: 6,
-      "End-of-Life Management": 9,
-      "Overall Eco-Friendliness Rating": 8,
-    };
-    // setData(productData);
-
-    // setEcoRating(ecoRating);
-    // setEcoRatingR([ecoRating, ecoRating]);
-  }, []);
   const handleScraping = async () => {
-    // setEcoRating({
-    //   Material: 7,
-    //   "Energy Efficiency": 8,
-    //   Transportation: 6,
-    //   "End-of-Life Management": 9 ,
-    //   "Overall Eco-Friendliness Rating": 8,
-    // });
     setLoading(true);
     if (onPage) {
       const productUrl = `${onPage}`;

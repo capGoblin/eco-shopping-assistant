@@ -51,13 +51,15 @@ const productUrl = process.argv[2];
   };
 
   // Scroll the page multiple times until the carousel is within the viewport or a maximum number of scrolls is reached
-  const maxScrolls = 10; // Adjust the maximum number of scrolls as needed
+  const maxScrolls = 20; // Adjust the maximum number of scrolls as needed
   let scrollCount = 0;
 
   while (scrollCount < maxScrolls) {
     // Check if the carousel selector is visible
     const carouselVisible = await page.evaluate(() => {
-      const carousel = document.querySelector("div#anonCarousel1");
+      const carousel = document.querySelector(
+        "div[class*='a-row a-carousel-header-row'] + div.a-row"
+      );
       const rect = carousel?.getBoundingClientRect(); // Add null check for carousel
       return (
         rect?.top !== undefined &&
@@ -80,12 +82,17 @@ const productUrl = process.argv[2];
     scrollCount++;
   }
 
-  await page.waitForSelector("div#anonCarousel1", { timeout: 60000 }); // Wait for up to 60 seconds
+  await page.waitForSelector(
+    "div[class*='a-row a-carousel-header-row'] + div.a-row",
+    {
+      timeout: 60000,
+    }
+  ); // Wait for up to 60 seconds
 
   // Extract URLs of the products in the carousel
   const urls = await page.evaluate(() => {
     const productElements = document.querySelectorAll(
-      "#anonCarousel1 li.a-carousel-card a.a-link-normal"
+      "div[class*='a-row a-carousel-header-row'] + div.a-row li.a-carousel-card a.a-link-normal"
     );
     const uniqueUrls = new Set<string>(); // Use a Set to ensure unique URLs
     for (const element of productElements) {

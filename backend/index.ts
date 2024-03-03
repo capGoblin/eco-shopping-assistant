@@ -90,57 +90,60 @@ app.get("/api/recomm-picks/:productUrl", (req, res) => {
 
       for (const url of urls) {
         try {
-          const result = await new Promise((resolve, reject) => {
-            exec(
-              `ts-node ./script/index.ts "${url}"`,
-              async (execError, stdout, stderr) => {
-                if (execError) {
-                  console.log(`error executing script: ${execError.message}`);
-                  reject(execError);
-                  return;
-                }
-                if (stderr) {
-                  console.log(`stderr: ${stderr}`);
-                  reject(new Error(stderr));
-                  return;
-                }
+          let result;
+          if (url) {
+            result = await new Promise((resolve, reject) => {
+              exec(
+                `ts-node ./script/index.ts "${url}"`,
+                async (execError, stdout, stderr) => {
+                  if (execError) {
+                    console.log(`error executing script: ${execError.message}`);
+                    reject(execError);
+                    return;
+                  }
+                  if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    reject(new Error(stderr));
+                    return;
+                  }
 
-                // Parse the script output
-                const productDetails = JSON.parse(stdout);
-                console.log(productDetails);
-
-                // Update the productDetails table in Supabase
-                const { error } = await supabase
-                  .from("productDetails")
-                  .insert(productDetails);
-
-                if (error) {
-                  console.error("Error updating Supabase:", error);
-                  reject(error);
-                } else {
-                  const { img_src, ...rest } = productDetails;
-                  const productDetailsWithoutImage = rest;
-                  const ecoRating = await generateEcoRating(
-                    productDetailsWithoutImage
-                  )
-                    .then((ecoRating) => {
-                      // console.log("Eco-friendliness rating:", ecoRating);
-                      return ecoRating;
-                    })
-                    .catch((error) => {
-                      console.error("Error:", error);
-                      reject(error);
-                    });
+                  // Parse the script output
+                  const productDetails = JSON.parse(stdout);
                   console.log(productDetails);
-                  const formattedEcoRating: EcoRating = stringToJSON(
-                    ecoRating!
-                  );
-                  console.log(formattedEcoRating);
-                  resolve([productDetails, formattedEcoRating]);
+
+                  // Update the productDetails table in Supabase
+                  const { error } = await supabase
+                    .from("productDetails")
+                    .insert(productDetails);
+
+                  if (error) {
+                    console.error("Error updating Supabase:", error);
+                    reject(error);
+                  } else {
+                    const { img_src, ...rest } = productDetails;
+                    const productDetailsWithoutImage = rest;
+                    const ecoRating = await generateEcoRating(
+                      productDetailsWithoutImage
+                    )
+                      .then((ecoRating) => {
+                        // console.log("Eco-friendliness rating:", ecoRating);
+                        return ecoRating;
+                      })
+                      .catch((error) => {
+                        console.error("Error:", error);
+                        reject(error);
+                      });
+                    console.log(productDetails);
+                    const formattedEcoRating: EcoRating = stringToJSON(
+                      ecoRating!
+                    );
+                    console.log(formattedEcoRating);
+                    resolve([productDetails, formattedEcoRating]);
+                  }
                 }
-              }
-            );
-          });
+              );
+            });
+          }
 
           results.push(result);
         } catch (error) {

@@ -106,7 +106,7 @@ const productUrl = process.argv[2];
 
   if (element !== null) {
     isAboutThisItemPresent = true;
-    console.log("The element is present");
+    // console.log("The element is present");
   } else {
     // console.log("AboutThisItemSection not found, skipping...");
   }

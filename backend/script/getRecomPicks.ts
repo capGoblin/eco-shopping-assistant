@@ -51,15 +51,16 @@ const productUrl = process.argv[2];
   };
 
   // Scroll the page multiple times until the carousel is within the viewport or a maximum number of scrolls is reached
-  const maxScrolls = 20; // Adjust the maximum number of scrolls as needed
+  const maxScrolls = 10; // Adjust the maximum number of scrolls as needed
   let scrollCount = 0;
 
+  let carousel: HTMLElement;
   while (scrollCount < maxScrolls) {
     // Check if the carousel selector is visible
     const carouselVisible = await page.evaluate(() => {
-      const carousel = document.querySelector(
-        "div[class*='a-row a-carousel-header-row'] + div.a-row"
-      );
+      carousel = document.querySelector(
+        "div.a-row.a-carousel-header-row.a-size-large.pa_componentTitleTest.unified_ad_labeling_title_margin + div.a-row div.a-carousel-col.a-carousel-center"
+      ) as HTMLElement;
       const rect = carousel?.getBoundingClientRect(); // Add null check for carousel
       return (
         rect?.top !== undefined &&
@@ -83,7 +84,7 @@ const productUrl = process.argv[2];
   }
 
   await page.waitForSelector(
-    "div[class*='a-row a-carousel-header-row'] + div.a-row",
+    "div.a-row.a-carousel-header-row.a-size-large.pa_componentTitleTest.unified_ad_labeling_title_margin + div.a-row div.a-carousel-col.a-carousel-center",
     {
       timeout: 60000,
     }
@@ -91,8 +92,8 @@ const productUrl = process.argv[2];
 
   // Extract URLs of the products in the carousel
   const urls = await page.evaluate(() => {
-    const productElements = document.querySelectorAll(
-      "div[class*='a-row a-carousel-header-row'] + div.a-row li.a-carousel-card a.a-link-normal"
+    const productElements = carousel.querySelectorAll(
+      "div.a-row.a-carousel-header-row.a-size-large.pa_componentTitleTest.unified_ad_labeling_title_margin + div.a-row div.a-carousel-col.a-carousel-center li.a-carousel-card a.a-link-normal"
     );
     const uniqueUrls = new Set<string>(); // Use a Set to ensure unique URLs
     for (const element of productElements) {

@@ -30,6 +30,7 @@ app.get("/api/run-script/:productUrl", (req, res) => {
       }
 
       // Parse the script output
+      console.log("stdout", stdout);
       const productDetails = JSON.parse(stdout);
       console.log(productDetails);
 

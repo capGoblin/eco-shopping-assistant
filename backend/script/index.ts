@@ -57,7 +57,7 @@ const productUrl = process.argv[2];
       { timeout: 5000 }
     );
   } catch (e) {
-    console.log("OverviewSection not found, skipping...");
+    // console.log("OverviewSection not found, skipping...");
   }
 
   if (overviewSection) {
@@ -108,7 +108,7 @@ const productUrl = process.argv[2];
     isAboutThisItemPresent = true;
     console.log("The element is present");
   } else {
-    console.log("AboutThisItemSection not found, skipping...");
+    // console.log("AboutThisItemSection not found, skipping...");
   }
   if (isAboutThisItemPresent) {
     // Expand the product overview section if collapsed
@@ -136,6 +136,7 @@ const productUrl = process.argv[2];
 
   // Scrape product information
   let product_info;
+  let product_info_2 = null;
 
   try {
     try {
@@ -153,6 +154,26 @@ const productUrl = process.argv[2];
           });
         }
       );
+
+      await page.waitForSelector("#productDetails_techSpec_section_2", {
+        timeout: 1000,
+      });
+      // Scrape product information
+      product_info_2 = await page.evaluate(() => {
+        const infoTableRows = Array.from(
+          document.querySelectorAll("#productDetails_techSpec_section_2 tr")
+        );
+        const productInformation: { [key: string]: string } = {};
+
+        infoTableRows.forEach((row) => {
+          const key = row.querySelector("th")?.textContent?.trim();
+          const value = row.querySelector("td")?.textContent?.trim();
+          if (key && value) {
+            productInformation[key] = value;
+          }
+        });
+        return productInformation;
+      });
     }
   } catch (e) {
     try {
@@ -166,34 +187,8 @@ const productUrl = process.argv[2];
         }
       );
     } catch (e) {
-      console.log("ProductDetails/Specs not found, skipping...");
+      // console.log("ProductDetails/Specs not found, skipping...");
     }
-  }
-  let product_info_2 = null;
-  try {
-    await page.waitForSelector("#productDetails_techSpec_section_2", {
-      timeout: 1000,
-    });
-    // Scrape product information
-    product_info_2 = await page.evaluate(() => {
-      const infoTableRows = Array.from(
-        document.querySelectorAll("#productDetails_techSpec_section_2 tr")
-      );
-      const productInformation: { [key: string]: string } = {};
-
-      infoTableRows.forEach((row) => {
-        const key = row.querySelector("th")?.textContent?.trim();
-        const value = row.querySelector("td")?.textContent?.trim();
-        if (key && value) {
-          productInformation[key] = value;
-        }
-      });
-      return productInformation;
-    });
-  } catch (error) {
-    // console.log(
-    //   "The selector was not found within the timeout period, but we are proceeding anyway."
-    // );
   }
 
   // Scrape product description
@@ -237,7 +232,13 @@ const productUrl = process.argv[2];
     //   "The selector was not found within the timeout period, but we are proceeding anyway."
     // );
   }
-  const witbSection = await page.waitForSelector("#whatsInTheBoxDeck");
+
+  let witbSection;
+  try {
+    witbSection = await page.waitForSelector("#whatsInTheBoxDeck");
+  } catch (e) {
+    // console.log("WitbSection not found, skipping...");
+  }
 
   // Scrape the content of the section
   let witb_section: string[] = [];

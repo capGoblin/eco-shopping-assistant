@@ -49,10 +49,16 @@ const productUrl = process.argv[2];
     el?.textContent?.trim()
   );
 
-  const overviewSection = await page.waitForSelector(
-    "#productOverview_feature_div"
-  );
-
+  // Overview
+  let overviewSection;
+  try {
+    overviewSection = await Promise.race([
+      page.waitForSelector("#productOverview_feature_div", { timeout: 5000 }),
+      new Promise((resolve) => setTimeout(resolve, 5000))
+    ]);
+  } catch (error) {
+    console.log('Element not found within 5 seconds');
+  }
   if (overviewSection) {
     // Expand the product overview section if collapsed
     const expandButton = await overviewSection.$(
@@ -64,17 +70,6 @@ const productUrl = process.argv[2];
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   }
-
-  await page.waitForSelector("#imgTagWrapperId img");
-
-  // Extract the image source
-  const img_src = await page.evaluate(() => {
-    const img = document.querySelector(
-      "#imgTagWrapperId img"
-    ) as HTMLImageElement;
-    return img ? img.src : null;
-  });
-
   // Scrape the content of the section
   const product_overview = await overviewSection?.evaluate(() => {
     const attributes: { [key: string]: string } = {}; // Add type annotation for attributes object
@@ -87,6 +82,16 @@ const productUrl = process.argv[2];
       }
     });
     return attributes;
+  });
+
+  // Image
+  await page.waitForSelector("#imgTagWrapperId img");
+  // Extract the image source
+  const img_src = await page.evaluate(() => {
+    const img = document.querySelector(
+      "#imgTagWrapperId img"
+    ) as HTMLImageElement;
+    return img ? img.src : null;
   });
 
   // Scrape "About this item" section

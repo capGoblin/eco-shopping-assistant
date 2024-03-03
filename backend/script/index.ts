@@ -52,13 +52,14 @@ const productUrl = process.argv[2];
   // Overview
   let overviewSection;
   try {
-    overviewSection = await Promise.race([
-      page.waitForSelector("#productOverview_feature_div", { timeout: 5000 }),
-      new Promise((resolve) => setTimeout(resolve, 5000))
-    ]);
-  } catch (error) {
-    console.log('Element not found within 5 seconds');
+    overviewSection = await page.waitForSelector(
+      "#productOverview_feature_div",
+      { timeout: 5000 }
+    );
+  } catch (e) {
+    console.log("OverviewSection not found, skipping...");
   }
+
   if (overviewSection) {
     // Expand the product overview section if collapsed
     const expandButton = await overviewSection.$(
@@ -95,16 +96,79 @@ const productUrl = process.argv[2];
   });
 
   // Scrape "About this item" section
-  const about_this_item = await page.$eval(
-    "#feature-bullets ul",
-    (el) => el?.textContent?.trim() || ""
-  );
+  let isAboutThisItemPresent = false;
+  let element;
+  try {
+    element = await page.$("#feature-bullets ul");
+  } catch (e) {
+    element = await page.$("#productFactsDesktop_feature_div ul");
+  }
+
+  if (element !== null) {
+    isAboutThisItemPresent = true;
+    console.log("The element is present");
+  } else {
+    console.log("AboutThisItemSection not found, skipping...");
+  }
+  if (isAboutThisItemPresent) {
+    // Expand the product overview section if collapsed
+    const expandButton = await page.$(
+      'div#productFactsToggleButton a[data-action="a-expander-toggle"]'
+    );
+    if (expandButton) {
+      await expandButton.click();
+      // Wait for the expanded content to load
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  }
+  let about_this_item;
+  try {
+    about_this_item = await page.$eval(
+      "#feature-bullets ul",
+      (el) => el?.textContent?.trim() || ""
+    );
+  } catch (e) {
+    about_this_item = await page.$eval(
+      "#productFactsDesktop_feature_div ul",
+      (el) => el?.textContent?.trim() || ""
+    );
+  }
 
   // Scrape product information
-  const product_info = await page.$eval(
-    "#productDetails_techSpec_section_1",
-    (el) => el?.textContent?.trim() || ""
-  );
+  let product_info;
+
+  try {
+    try {
+      product_info = await page.$eval(
+        "#productDetails_techSpec_section_1",
+        (el) => el?.textContent?.trim() || ""
+      );
+    } catch (e) {
+      product_info = await page.$$eval(
+        "#productDetails_detailBullets_sections1 tr",
+        (rows) => {
+          return Array.from(rows, (row) => {
+            const columns = row.querySelectorAll("th, td");
+            return Array.from(columns, (column) => column.textContent);
+          });
+        }
+      );
+    }
+  } catch (e) {
+    try {
+      product_info = await page.$$eval(
+        "#technicalSpecifications_section_1 tr",
+        (rows) => {
+          return Array.from(rows, (row) => {
+            const columns = row.querySelectorAll("th, td");
+            return Array.from(columns, (column) => column.textContent);
+          });
+        }
+      );
+    } catch (e) {
+      console.log("ProductDetails/Specs not found, skipping...");
+    }
+  }
   let product_info_2 = null;
   try {
     await page.waitForSelector("#productDetails_techSpec_section_2", {

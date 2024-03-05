@@ -7,7 +7,7 @@ const Header = () => {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <div className="class = flex items-center space-x-3 rtl:space-x-reverse w-">
             <img
-              src="./fotor-2024022194124.png"
+              src="../vite.svg"
               className="h-8"
               alt="Eco-Shopping Logo"
             />

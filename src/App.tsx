@@ -9,7 +9,9 @@ import Header from "./components/Header";
 import DisplayProductData from "./components/ProductData";
 import DisplayEcoRating from "./components/EcoRating";
 import Loading from "./components/Loading";
+// const image = require("./assets/fotor-2024022194124.png");
 // import EcoRating from "./component/EcoRating";
+
 interface ProductData {
   title: string;
   product_overview: {
@@ -49,7 +51,7 @@ function App() {
       },
       product_description: "This is a detailed description of the sample product.",
       witb_section: ["Section 1", "Section 2", "Section 3"],
-      img_src: "../fotor-2024022194124.png",
+      img_src: "../vite.svg",
     };
   });
   
@@ -93,7 +95,7 @@ function App() {
         product_description:
           "This is a detailed description of the sample product.",
         witb_section: ["Section 1", "Section 2", "Section 3"],
-        img_src: "../fotor-2024022194124.png",
+        img_src: "../vite.svg",
       },
       {
         title: "Sample Product",
@@ -110,7 +112,7 @@ function App() {
         product_description:
           "This is a detailed description of the sample product.",
         witb_section: ["Section 1", "Section 2", "Section 3"],
-        img_src: "../fotor-2024022194124.png",
+        img_src: "../vite.svg",
       },
     ];
   

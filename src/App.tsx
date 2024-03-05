@@ -201,21 +201,21 @@ function App() {
   // }, [ecoRatingR]);
 
   
-  // useEffect(() => {
-  //   chrome.storage.local.get(["onPage"], function (result) {
-  //     setOnPage(result.onPage || "");
-  //   });
-  // }, []);
-  // useEffect(() => {
-  //   // Listen for changes in the extensionClick flag in local storage
-  //   chrome.storage.local.get(["extensionClick"], function (result) {
-  //     if (result.extensionClick) {
-  //       // If the flag is true, set onClick to true and trigger handleScraping
-  //       setOnClick(true);
-  //       handleScraping();
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    chrome.storage.local.get(["onPage"], function (result) {
+      setOnPage(result.onPage || "");
+    });
+  }, []);
+  useEffect(() => {
+    // Listen for changes in the extensionClick flag in local storage
+    chrome.storage.local.get(["extensionClick"], function (result) {
+      if (result.extensionClick) {
+        // If the flag is true, set onClick to true and trigger handleScraping
+        setOnClick(true);
+        handleScraping();
+      }
+    });
+  }, []);
 
   const handleScraping = async () => {
     setLoading(true);

@@ -7,11 +7,11 @@ import stringToJSON from "./lib/stringToJSON";
 const app = express();
 const port = 3000;
 interface EcoRating {
-  Material: number;
-  "Energy Efficiency": number;
-  Transportation: number;
-  "End-of-Life Management": number;
-  "Overall Eco-Friendliness Rating": number;
+  Material: any;
+  "Energy Efficiency": any;
+  Transportation: any;
+  "End-of-Life Management": any;
+  "Overall Eco-Friendliness Rating": any;
 }
 
 app.get("/api/run-script/:productUrl", (req, res) => {

@@ -13,30 +13,35 @@ interface EcoRatingProps {
   ecoRating: EcoRating;
 }
 const DisplayEcoRating = ({ ecoRating }: EcoRatingProps) => {
+  const cleanedObj = Object.fromEntries(
+    Object.entries(ecoRating)
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => [key, String(value)])
+  );
   return (
     <div>
       <div className="">
-        <strong>Material: </strong> {ecoRating?.Material!}
+        <strong>Material: </strong> {cleanedObj?.Material!}
       </div>
-      <ProgressBar progress={extractNumbers(ecoRating?.Material!)} />
+      <ProgressBar progress={extractNumbers(cleanedObj?.Material!)} />
       <div>
-        <strong>Energy Efficiency</strong> {ecoRating?.["Energy Efficiency"]!}
+        <strong>Energy Efficiency</strong> {cleanedObj?.["Energy Efficiency"]!}
       </div>
-      <ProgressBar progress={extractNumbers(ecoRating?.["Energy Efficiency"]!)} />
+      <ProgressBar progress={extractNumbers(cleanedObj?.["Energy Efficiency"]!)} />
       <div>
-        <strong>Transportation:</strong> {ecoRating?.Transportation!}{" "}
+        <strong>Transportation:</strong> {cleanedObj?.Transportation!}{" "}
       </div>
-      <ProgressBar progress={extractNumbers(ecoRating?.Transportation!)} />
+      <ProgressBar progress={extractNumbers(cleanedObj?.Transportation!)} />
       <div>
         <strong>End-of-Life Management:</strong>{" "}
-        {extractNumbers(ecoRating?.["End-of-Life Management"]!)}{" "}
+        {cleanedObj?.["End-of-Life Management"]! || cleanedObj?.["Endof-Life Management"]}{" "}
       </div>
-      <ProgressBar progress={extractNumbers(ecoRating?.["End-of-Life Management"]!)} />
+      <ProgressBar progress={extractNumbers(cleanedObj?.["End-of-Life Management"]! || cleanedObj?.["Endof-Life Management"])} />
       <div>
         <strong>Overall Eco-Friendliness Rating: </strong>{" "}
-        {ecoRating?.["Overall Eco-Friendliness Rating"]!}
+        {cleanedObj?.["Overall Eco-Friendliness Rating"]! || cleanedObj?.["Overall EcoFriendliness Rating"]}
       </div>
-      <ProgressBar progress={extractNumbers(ecoRating?.["Overall Eco-Friendliness Rating"]!)} />
+      <ProgressBar progress={extractNumbers(cleanedObj?.["Overall Eco-Friendliness Rating"]! || cleanedObj?.["Overall EcoFriendliness Rating"])} />
     </div>
   );
 };

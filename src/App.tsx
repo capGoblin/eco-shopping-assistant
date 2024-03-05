@@ -247,6 +247,81 @@ function App() {
 
   const handleScraping = async () => {
     setLoading(true);
+    setData({
+      title: "Sample Product",
+      product_overview: {
+        Weight: "1kg",
+        Color: "Red",
+      },
+      about_this_item: "This is a sample product for demonstration purposes.",
+      product_info: "This product is made from high-quality materials.",
+      product_info_2: {
+        Manufacturer: "Sample Manufacturer",
+        Material: "Plastic",
+      },
+      product_description: "This is a detailed description of the sample product.",
+      witb_section: ["Section 1", "Section 2", "Section 3"],
+      img_src: "../vite.svg",
+    })
+    setEcoRating({
+      Material: "7",
+      "Energy Efficiency": "8",
+      Transportation: "6",
+      "End-of-Life Management": "9",
+      "Overall Eco-Friendliness Rating": "8",
+    })
+    setDataR([
+      {
+        title: "Sample Product",
+        product_overview: {
+          Weight: "1kg",
+          Color: "Red",
+        },
+        about_this_item: "This is a sample product for demonstration purposes.",
+        product_info: "This product is made from high-quality materials.",
+        product_info_2: {
+          Manufacturer: "Sample Manufacturer",
+          Material: "Plastic",
+        },
+        product_description:
+          "This is a detailed description of the sample product.",
+        witb_section: ["Section 1", "Section 2", "Section 3"],
+        img_src: "../vite.svg",
+      },
+      {
+        title: "Sample Product",
+        product_overview: {
+          Weight: "1kg",
+          Color: "Red",
+        },
+        about_this_item: "This is a sample product for demonstration purposes.",
+        product_info: "This product is made from high-quality materials.",
+        product_info_2: {
+          Manufacturer: "Sample Manufacturer",
+          Material: "Plastic",
+        },
+        product_description:
+          "This is a detailed description of the sample product.",
+        witb_section: ["Section 1", "Section 2", "Section 3"],
+        img_src: "../vite.svg",
+      },
+    ])
+    setEcoRatingR([
+      {
+        Material: "7",
+        "Energy Efficiency": "8",
+        Transportation: "6",
+        "End-of-Life Management": "9",
+        "Overall Eco-Friendliness Rating": "8",
+      },
+      {
+        Material: "7",
+        "Energy Efficiency": "8",
+        Transportation: "6",
+        "End-of-Life Management": "9",
+        "Overall Eco-Friendliness Rating": "8",
+      },
+      ])
     if (onPage) {
       const productUrl = `${onPage}`;
       const encodedProductUrl = encodeURIComponent(productUrl);
@@ -259,12 +334,12 @@ function App() {
         })
         .catch((error) => console.error("Error fetching data:", error));
 
-      setLoading(false);
-      await handleRecommPicks();
-    }
-    console.log(data);
-  };
-  const handleRecommPicks = async () => {
+        setLoading(false);
+        await handleRecommPicks();
+      }
+      console.log(data);
+    };
+    const handleRecommPicks = async () => {
     setLoadingR(true);
     if (onPage) {
       const productUrl = `${onPage}`;

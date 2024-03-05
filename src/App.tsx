@@ -55,16 +55,17 @@ function App() {
     };
   });
   
-  const [ecoRating, setEcoRating] = useState<EcoRating>(
-
+  const [ecoRating, setEcoRating] = useState<EcoRating>( () => {
+    const storedData = localStorage.getItem('ecoRating');
+    return storedData ? JSON.parse(storedData) :
     {
-      Material: 7,
-      "Energy Efficiency": 8,
-      Transportation: 6,
-      "End-of-Life Management": 9,
-      "Overall Eco-Friendliness Rating": 8,
+      Material: "7",
+      "Energy Efficiency": "8",
+      Transportation: "6",
+      "End-of-Life Management": "9",
+      "Overall Eco-Friendliness Rating": "8",
     }
-  );
+});
 // useEffect(() => {
 //   chrome.storage.local.get(['ecoRating'], function(result) {
 //     setEcoRating(result.ecoRating ? result.ecoRating : {
@@ -117,22 +118,26 @@ function App() {
     ];
   
   });
-  const [ecoRatingR, setEcoRatingR] = useState<EcoRating[]>([
+  const [ecoRatingR, setEcoRatingR] = useState<EcoRating[]>(() => {
+        const storedData = localStorage.getItem('ecoRatingR');
+    return storedData ? JSON.parse(storedData) : [
     {
-      Material: 7,
-      "Energy Efficiency": 8,
-      Transportation: 6,
-      "End-of-Life Management": 9,
-      "Overall Eco-Friendliness Rating": 8,
+      Material: "7",
+      "Energy Efficiency": "8",
+      Transportation: "6",
+      "End-of-Life Management": "9",
+      "Overall Eco-Friendliness Rating": "8",
     },
     {
-      Material: 7,
-      "Energy Efficiency": 8,
-      Transportation: 6,
-      "End-of-Life Management": 9,
-      "Overall Eco-Friendliness Rating": 8,
+      Material: "7",
+      "Energy Efficiency": "8",
+      Transportation: "6",
+      "End-of-Life Management": "9",
+      "Overall Eco-Friendliness Rating": "8",
     },
-  ]);
+    ]
+    
+  });
 //   useEffect(() => {
 //   chrome.storage.local.get(['ecoRatingR'], function(result) {
 //     setEcoRatingR(result.ecoRatingR ? result.ecoRatingR : [
@@ -189,6 +194,29 @@ function App() {
     localStorage.setItem("dataR", JSON.stringify(dataR))
   }, [dataR])
   
+      useEffect(() => {
+    // localStorage.setItem("ecoRating", JSON.stringify({
+    //   Material: 7,
+    //   "Energy Efficiency": 8,
+    //   Transportation: 6,
+    //   "End-of-Life Management": 9,
+    //   "Overall Eco-Friendliness Rating": 8,
+    // }))
+
+    localStorage.setItem("ecoRating", JSON.stringify(ecoRating))
+  }, [ecoRating])
+
+  useEffect(() => {
+    // localStorage.setItem("ecoRating", JSON.stringify({
+    //   Material: 7,
+    //   "Energy Efficiency": 8,
+    //   Transportation: 6,
+    //   "End-of-Life Management": 9,
+    //   "Overall Eco-Friendliness Rating": 8,
+    // }))
+
+    localStorage.setItem("ecoRatingR", JSON.stringify(ecoRatingR))
+  }, [ecoRatingR])
   // useEffect(() => {
   //   chrome.storage.local.set({
   //     ecoRating: ecoRating

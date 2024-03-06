@@ -31,6 +31,8 @@ const ProductData = ({ data, widthClass }: ProductDataProps) => {
       <div className="flex justify-between items-center">
         <img
           src={data?.img_src}
+          // commentThis
+          // src="../logo.svg"
           alt={data?.title}
           className={`${widthClass} mb-2`}
         />

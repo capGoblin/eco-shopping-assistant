@@ -8,6 +8,8 @@ const Header = () => {
           <div className="class = flex items-center space-x-3 rtl:space-x-reverse w-">
             <img
               src="../vite.svg"
+              // commentThis
+              // src="../logo.svg"
               className="h-8"
               alt="Eco-Shopping Logo"
             />
